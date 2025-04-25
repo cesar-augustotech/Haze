@@ -1,0 +1,24 @@
+body {
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #mapa {
+    display: grid;
+    grid-template-columns: repeat(5, 32px); /* 5 colunas de 32px */
+    grid-template-rows: repeat(5, 32px);
+    gap: 0;
+  }
+  
+  .tile {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+  }
+  
+  .grama { background-color: #6abe30; }
+  .caminho { background-color: #bcbcbc; }
+  .personagem { background-color: #ffdd00; }

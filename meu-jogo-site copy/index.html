@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualização de Áreas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #111; color: #eee; font-family: monospace; }
+    h2 { text-align: center; padding: 20px 0; }
+    #game {
+      width: 960px;
+      height: 480px;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      border: 4px solid #444;
+      background-size: cover;
+      background-position: center;
+    }
+    #player {
+      width: 32px;
+      height: 32px;
+      background: orange;
+      position: absolute;
+      transition: left 0.05s, top 0.05s;
+      z-index: 20;
+    }
+    /* container para todos os overlays */
+    #overlays {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+    /* estilos dos retângulos */
+    .overlay-portal { background: rgba(0, 0, 255, 0.4); }
+    .overlay-door   { background: rgba(255, 0, 0, 0.4); }
+    .overlay-exit   { background: rgba(0, 255, 0, 0.4); }
+  </style>
+</head>
+<body>
+
+  <h2>🌍 Visualizador de Áreas</h2>
+  <div id="game">
+    <div id="overlays"></div>
+    <div id="player"></div>
+  </div>
+
+  <script>
+    // configuração de cenas
+    const config = {
+      scenes: {
+        intro: {
+          background: 'darkroom.png',
+          portalArea: { x: 280, y: 260, w: 80, h: 80 },
+          next: 'lobby'
+        },
+        lobby: {
+          background: 'lobby.png',
+          doors: [
+            { area: { x: 100, y: 240, w: 64, h: 96 }, target: 'codeLab' },
+            { area: { x: 240, y: 240, w: 64, h: 96 }, target: 'gameRoom' },
+            { area: { x: 380, y: 240, w: 64, h: 96 }, target: 'library' },
+            { area: { x: 120, y: 120, w: 64, h: 96 }, target: 'garden' },
+            { area: { x: 320, y: 120, w: 64, h: 96 }, target: 'tower' },
+            { area: { x: 200, y:  60, w: 64, h: 96 }, target: 'mirror' },
+          ]
+        },
+        codeLab:  { background: 'codelab.png',  exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+        gameRoom: { background: 'gameroom.png', exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+        library:  { background: 'library.png',  exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+        garden:   { background: 'garden.png',   exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+        tower:    { background: 'tower.png',    exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+        mirror:   { background: 'mirror.png',   exitArea: { x: 10, y: 150, w: 64, h: 96 }, next: 'lobby' },
+      }
+    };
+
+    const gameElem     = document.getElementById('game');
+    const overlaysElem = document.getElementById('overlays');
+    const playerElem   = document.getElementById('player');
+    let currentScene   = 'intro';
+    let player         = { x: 300, y: 180, w: 32, h: 32 };
+
+    function loadScene(name) {
+      currentScene = name;
+      const scene = config.scenes[name];
+      gameElem.style.backgroundImage = `url('${scene.background}')`;
+
+      // posiciona player
+      if (name === 'intro') {
+        player = { x: 300, y: 180, w:32, h:32 };
+      } else {
+        const exit = scene.exitArea;
+        player = { x: exit.x + exit.w + 10, y: exit.y, w:32, h:32 };
+      }
+      renderPlayer();
+      renderOverlays();
+    }
+
+    function renderPlayer() {
+      playerElem.style.left = player.x + 'px';
+      playerElem.style.top  = player.y + 'px';
+    }
+
+    // desenha overlays de portal, portas e saída
+    function renderOverlays() {
+      overlaysElem.innerHTML = '';
+      const scene = config.scenes[currentScene];
+
+      if (scene.portalArea) {
+        addOverlay(scene.portalArea, 'overlay-portal');
+      }
+      if (scene.doors) {
+        scene.doors.forEach(d =>
+          addOverlay(d.area, 'overlay-door')
+        );
+      }
+      if (scene.exitArea) {
+        addOverlay(scene.exitArea, 'overlay-exit');
+      }
+    }
+
+    function addOverlay(area, cssClass) {
+      const div = document.createElement('div');
+      div.className = cssClass;
+      div.style.position = 'absolute';
+      div.style.left   = area.x + 'px';
+      div.style.top    = area.y + 'px';
+      div.style.width  = area.w + 'px';
+      div.style.height = area.h + 'px';
+      overlaysElem.appendChild(div);
+    }
+
+    function checkTransition() {
+      const scene = config.scenes[currentScene];
+      if (scene.portalArea && rectOverlap(player, scene.portalArea)) {
+        loadScene(scene.next);
+        return;
+      }
+      if (scene.doors) {
+        for (let door of scene.doors) {
+          if (rectOverlap(player, door.area)) {
+            loadScene(door.target);
+            return;
+          }
+        }
+      }
+      if (scene.exitArea && rectOverlap(player, scene.exitArea)) {
+        loadScene(scene.next);
+      }
+    }
+
+    function rectOverlap(a, b) {
+      return !(a.x + a.w < b.x || a.x > b.x + b.w ||
+               a.y + a.h < b.y || a.y > b.y + b.h);
+    }
+
+    document.addEventListener('keydown', e => {
+      const step = 10;
+      if (e.key === 'ArrowUp')    player.y -= step;
+      if (e.key === 'ArrowDown')  player.y += step;
+      if (e.key === 'ArrowLeft')  player.x -= step;
+      if (e.key === 'ArrowRight') player.x += step;
+
+      // mantém dentro dos limites
+      player.x = Math.max(0, Math.min(player.x, gameElem.clientWidth  - player.w));
+      player.y = Math.max(0, Math.min(player.y, gameElem.clientHeight - player.h));
+
+      renderPlayer();
+      checkTransition();
+    });
+
+    loadScene('intro');
+  </script>
+
+</body>
+</html>

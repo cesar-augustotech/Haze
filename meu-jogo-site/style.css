@@ -1,0 +1,16 @@
+body {
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .game{
+    display: flex;
+    width: 1024;
+    height: 576;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+  }
