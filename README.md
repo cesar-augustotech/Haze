@@ -49,17 +49,4 @@ Navegue até a pasta do projeto e abra o arquivo index.html em seu navegador de 
 ### Interaja com o site:
 Use as setas do teclado para mover o personagem pelo mapa e acessar as áreas com conteúdo informativo.
 
-### Estrutura do Projeto
-O projeto possui a seguinte estrutura de diretórios e arquivos:
 
-plaintext
-Copiar
-Editar
-haze/
-│
-├── index.html          # Página principal do site
-├── style.css           # Arquivo de estilos
-├── script.js           # Lógica de interação e movimento
-├── assets/             # Imagens, sprites e outros recursos
-│   └── sprite.png      # Exemplo de sprite do personagem
-└── README.md           # Este arquivo de documentação
