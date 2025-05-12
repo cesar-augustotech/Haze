@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Fim da Jornada</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      background-color: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://i.imgur.com/W8ICR0X.png'); /* Fundo escuro estilo "final de jogo" */
+      background-size: cover;
+    }
+
+    .caixa-texto {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 3px solid #fff;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    button {
+      margin: 20px 10px 0;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+
+  <div class="caixa-texto">
+    <p>🏁 <strong>Fim da Jornada</strong></p>
+
+    <p>Você chegou ao final da minha apresentação!</p>
+
+    <p>Obrigado por explorar esse pequeno mundo comigo.<br>
+    Essa foi minha forma de mostrar como os jogos fazem parte da minha vida<br>
+    e por que aprender a criá-los é tão importante para mim.</p>
+
+    <p>🎓 Esse projeto é só o começo de uma aventura maior:<br>
+    a de transformar paixão em conhecimento.</p>
+
+    <p>💡 Pressione o botão para reiniciar ou fechar esta jornada.</p>
+
+    <button onclick="reiniciar()">🔁 Reiniciar</button>
+    <button onclick="fechar()">❌ Fechar</button>
+  </div>
+
+  <script>
+    function reiniciar() {
+      window.location.href = "index.html"; // volta para o início
+    }
+
+    function fechar() {
+      window.close(); // tenta fechar a aba (nem sempre funciona fora de um app)
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Sala da História Pessoal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      background-color: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://i.imgur.com/FDsdEzb.png'); /* Fundo pixel art tipo quarto */
+      background-size: cover;
+    }
+
+    .caixa-texto {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 3px solid #fff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+
+  <div class="caixa-texto">
+    <p>📼 <strong>Minha História com os Jogos</strong></p>
+    <p>Desde pequeno, os jogos sempre estiveram presentes na minha vida. Eles não eram apenas uma forma de passar o tempo, mas uma janela para outros mundos, ideias e sentimentos.</p>
+    <p>🎮 Jogos como <strong>Undertale</strong> e <strong>Stardew Valley</strong> me inspiraram a ser criativo, pensar de forma estratégica e até aprender coisas novas.</p>
+    <p>🧠 Foi através dos jogos que desenvolvi meu interesse por tecnologia e programação. Eles me mostraram que criar histórias e experiências é algo poderoso — e que eu também posso fazer isso.</p>
+    <p>✨ Por isso, decidi mergulhar no mundo do desenvolvimento de jogos.</p>
+    <button onclick="irParaSala()">Próxima sala</button>
+  </div>
+
+  <script>
+    function irParaSala() {
+      window.location.href = "sala-pesquisa.html"; // próxima sala
+    }
+  </script>
+
+</body>
+</html>

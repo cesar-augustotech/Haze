@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Sala Inicial – Desenvolvimento de Jogos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://i.imgur.com/6VZ6rKp.png'); /* Exemplo de fundo estilo pixel art */
+      background-size: cover;
+    }
+
+    .caixa-texto {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 3px solid #fff;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+
+  <div class="caixa-texto">
+    <p>🎮 Olá, jogador(a)! Bem-vindo(a) à minha jornada interativa sobre o desenvolvimento de jogos.</p>
+    <p>🕹️ Aqui, você vai explorar salas temáticas que contam como os jogos marcaram a minha vida, o que descobri ao pesquisar sobre essa área e por que ela é tão importante para mim.</p>
+    <p>🚪 Use as setas do teclado ou clique nos elementos para se mover entre as salas.</p>
+    <button onclick="irParaSala()">Vamos começar!</button>
+  </div>
+
+  <script>
+    function irParaSala() {
+      window.location.href = "sala-historia.html"; // Nome da próxima página
+    }
+  </script>
+
+</body>
+</html>

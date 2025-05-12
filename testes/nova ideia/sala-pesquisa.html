@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Sala da Pesquisa – Desenvolvimento de Jogos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      background-color: #222;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://i.imgur.com/74oyZ1G.png'); /* Fundo tipo sala de estudos pixel art */
+      background-size: cover;
+    }
+
+    .caixa-texto {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 3px solid #fff;
+      border-radius: 10px;
+      padding: 25px;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+
+  <div class="caixa-texto">
+    <p>📘 <strong>O que é Desenvolvimento de Jogos?</strong></p>
+    <p>Desenvolver um jogo é muito mais do que programar. É um processo criativo e técnico que envolve várias etapas e profissionais.</p>
+
+    <p>🛠️ <strong>Etapas principais:</strong><br>
+      - Roteiro e ideias (storytelling)<br>
+      - Design do jogo (mecânicas, regras, desafios)<br>
+      - Programação (lógica e funcionamento)<br>
+      - Arte (personagens, cenários, efeitos)<br>
+      - Áudio (trilhas, efeitos sonoros, vozes)<br>
+      - Testes e melhorias
+    </p>
+
+    <p>👥 <strong>Profissionais envolvidos:</strong><br>
+      - Game Designer<br>
+      - Programador(a)<br>
+      - Artista<br>
+      - Compositor(a) de trilha sonora<br>
+      - Testador(a)<br>
+      - Gerente de projeto
+    </p>
+
+    <p>⚙️ <strong>Ferramentas usadas:</strong><br>
+      Unity, Godot, RPG Maker, Unreal Engine, Construct...
+    </p>
+
+    <p>Cada jogo é uma obra feita em equipe — como um filme jogável!</p>
+
+    <button onclick="irParaSala()">Próxima sala</button>
+  </div>
+
+  <script>
+    function irParaSala() {
+      window.location.href = "sala-importancia.html"; // próxima sala
+    }
+  </script>
+
+</body>
+</html>

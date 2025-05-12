@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Projeto de Pesquisa - Jogo Interativo</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #111;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="jogo" width="512" height="512"></canvas>
+
+<script>
+  // Definindo o canvas e o contexto para desenhar
+  let canvas = document.getElementById("jogo");
+  let ctx = canvas.getContext("2d");
+
+  // Variáveis do mapa e personagem
+  let personagem = { x: 50, y: 50, largura: 32, altura: 32 };
+  
+  // Salas e transições
+  let salas = [
+    { nome: "Sala 1", x: 400, y: 100, largura: 50, altura: 50, salaFinal: false },
+    { nome: "Sala 2", x: 200, y: 300, largura: 50, altura: 50, salaFinal: true }
+  ];
+
+  // Movimentos
+  let movimento = { up: false, down: false, left: false, right: false };
+
+  // Ouve eventos de teclado
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp" || e.key === "w") movimento.up = true;
+    if (e.key === "ArrowDown" || e.key === "s") movimento.down = true;
+    if (e.key === "ArrowLeft" || e.key === "a") movimento.left = true;
+    if (e.key === "ArrowRight" || e.key === "d") movimento.right = true;
+  });
+
+  document.addEventListener("keyup", (e) => {
+    if (e.key === "ArrowUp" || e.key === "w") movimento.up = false;
+    if (e.key === "ArrowDown" || e.key === "s") movimento.down = false;
+    if (e.key === "ArrowLeft" || e.key === "a") movimento.left = false;
+    if (e.key === "ArrowRight" || e.key === "d") movimento.right = false;
+  });
+
+  // Função para desenhar o personagem
+  function desenharPersonagem() {
+    if (movimento.up) personagem.y -= 3;
+    if (movimento.down) personagem.y += 3;
+    if (movimento.left) personagem.x -= 3;
+    if (movimento.right) personagem.x += 3;
+
+    ctx.fillStyle = "#ff0000"; // Cor do personagem
+    ctx.fillRect(personagem.x, personagem.y, personagem.largura, personagem.altura);
+  }
+
+  // Função para desenhar o mapa (simples fundo)
+  function desenharMapa() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00"; // Cor do fundo do mapa (verde)
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Desenhar as "portas" ou áreas de transição
+    salas.forEach(sala => {
+      ctx.strokeStyle = "red";
+      ctx.strokeRect(sala.x, sala.y, sala.largura, sala.altura);
+    });
+  }
+
+  // Verificar se o personagem chegou a uma "porta"
+  function verificarPortas() {
+    salas.forEach(sala => {
+      if (
+        personagem.x < sala.x + sala.largura &&
+        personagem.x + personagem.largura > sala.x &&
+        personagem.y < sala.y + sala.altura &&
+        personagem.y + personagem.altura > sala.y
+      ) {
+        if (sala.salaFinal) {
+          window.alert("Parabéns! Você chegou ao final da jornada.");
+        }
+      }
+    });
+  }
+
+  // Função principal de desenho
+  function desenhar() {
+    desenharMapa();
+    desenharPersonagem();
+    verificarPortas();
+  }
+
+  // Atualizar a tela a cada quadro
+  setInterval(desenhar, 1000 / 60); // 60 FPS
+
+</script>
+
+</body>
+</html>
