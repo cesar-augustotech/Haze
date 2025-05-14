@@ -15,34 +15,56 @@
       <h2>Conheça o desenvolvimento de jogos</h2>
     </div>
 
-    <div class ="header-right">
-      <button class="jogar" onclick="jogar()">Conheça</button>
+    <div class="header-right">
+      <button class="jogar" onclick="jogar()">Começar</button>
       <img style="padding-left:10px; height: 30px; width: 25px;" src="./assets/3bars.png">
     </div>
-      
+
   </header>
 
   <main>
-    <div class="banner">
+    <div class="banner" id="banner">
       <div class="banner-content">
-        <h1>Explore um mundo de aventuras e descubra as histórias contidas nele.</h1>
-      
+        <h2>Descubra o mundo por trás dos games</h2>
+        <p>Aprenda, jogue, e entenda por que isso importa para mim</p>
       </div>
-      <button class="jogar" onclick="jogar()">Jogar</button>  
+      <button class="jogar" onclick="jogar()">Jogar</button>
+      <button class="jogar" style="background-color: rgba(0,0,0,0.1); box-shadow: none;" onclick="">Sobre</button>
     </div>
     <div class="conteudo"></div>
-      </div>
-      <div class="game">
-        <canvas></canvas>
+    </div>
     
+    <div class="game-div" id="game_div"> 
+      <canvas class="game" id="jogo_canvas"></canvas>
+
+    </div>
+
+    <!-- Sobre o Projeto -->
+    <section class="sobre" id="sobre">
+      <h2>Por que Desenvolvimento de Jogos?</h2>
+      <div class="blocos">
+        <div class="bloco">
+          <h3>Origem</h3>
+          <p>Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
         </div>
-  
+        <div class="bloco">
+          <h3>Conexão Pessoal</h3>
+          <p>Aprender a criar jogos me fez entender como arte, código e emoção se encontram.</p>
+        </div>
+        <div class="bloco">
+          <h3>O que você verá aqui</h3>
+          <p>Um mundo interativo que coleta suas experiências e mostra o que nos une nesse universo.</p>
+        </div>
+      </div>
+    </section>
 
-
-  </main>
-  
-  <script src="data/collisions.js"></script>
-  <script src="js/script.js"></script>
+    <!-- Rodapé -->
+    <footer>
+      <p>&copy; 2025 HAZE - Criado por [Seu Nome]</p>
+    </footer>
 </body>
+
+<script src="data/collisions.js"></script>
+<script src="js/script.js"></script>
 
 </html>

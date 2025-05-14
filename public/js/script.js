@@ -1,9 +1,11 @@
 
 /* Começar vídeo em 2:33*/
 
-const canvas = document.querySelector('canvas')
+const canvas = document.getElementById('jogo_canvas')
+const banner = document.getElementById('banner')
 const ctx = canvas.getContext('2d')
 
+const game_div = document.getElementById('game_div')
 canvas.width = 1024;
 canvas.height = 576;
 
@@ -78,7 +80,7 @@ const keys = {
 }
 
 function animate() {
-    window.requestAnimationFrame(animate);
+    /*window.requestAnimationFrame(animate);*/
     console.log('animate');
     background.draw()
 
@@ -94,10 +96,22 @@ function animate() {
     else if (keys.a.pressed  && lastKey === 'a') background.position.x += 3
     else if (keys.s.pressed && lastKey === 's') background.position.y -= 3
     else if (keys.d.pressed && lastKey === 'd') background.position.x -= 3
+    setTimeout(animate, 1000/60)
 }
 
 function jogar(){
-    animate()
+     banner.style.transition = 'opacity 1.5s';
+    banner.style.opacity = '0';
+
+    // Aguarda 2 segundos para ocultar e mostrar o jogo
+    setTimeout(() => {
+        banner.style.display = 'none';
+        game_div.style.display = 'flex';
+        game_div.style.transition = 'opacity 3s';
+         game_div.style.opacity = '1';
+        
+        animate();
+    },  2000);
 }
 
 
