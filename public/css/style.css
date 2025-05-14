@@ -10,9 +10,10 @@ header {
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
-  height: 80px;
+  height: 100px;
   font-weight: 400;
   align-items: center;
+  position: sticky;
 }
 
 .header-left {
@@ -25,10 +26,27 @@ header {
 
   display: flex;
   align-items: center;
-
-
 }
 
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: antiquewhite;
+  position: sticky;
+}
+.banner-content{
+  
+  width: 50%;
+  height: 50%;
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .jogar {
 
   border-radius: 15px;
@@ -49,11 +67,6 @@ header {
   width: 100%;
 }
 
-banner {
-  background-color: azure;
-  height: 80vh;
-
-}
 
 .game {
   display: flex;
