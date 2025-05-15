@@ -17,7 +17,8 @@
 
     <div class="header-right">
       <button class="jogar" onclick="jogar()">Começar</button>
-      <img style="padding-left:10px; height: 30px; width: 25px;" src="./assets/3bars.png">
+     <button style="background-color: 0,0,0,0;border: 0cap;"><img style="background-color: 0,0,0,0; height: 30px; width: 30px;" src="./assets/3-bars.png"></div></button>
+     <button class="jogar" onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
     </div>
 
   </header>
@@ -25,14 +26,15 @@
   <main>
     <div class="banner" id="banner">
       <div class="banner-content">
-        <h2>Descubra o mundo por trás dos games</h2>
-        <p>Aprenda, jogue, e entenda por que isso importa para mim</p>
+        <h1>Descubra o mundo por trás dos games.</h1>
+        <p style="font-size: 50%;">Aprenda, jogue, e entenda por que isso importa para mim</p>
       </div>
-      <button class="jogar" onclick="jogar()">Jogar</button>
-      <button class="jogar" style="background-color: rgba(0,0,0,0.1); box-shadow: none;" onclick="">Sobre</button>
+      <div>
+      <button class="jogar" style="color:white;border-color:white; box-shadow: 5px 5px 5px rgba(255,255,255,1)" onclick="jogar()">Jogar</button>
+      <button class="jogar" style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;" onclick="">Sobre</button>
     </div>
-    <div class="conteudo"></div>
-    </div>
+  </div>
+    
     
     <div class="game-div" id="game_div"> 
       <canvas class="game" id="jogo_canvas"></canvas>
@@ -41,27 +43,86 @@
 
     <!-- Sobre o Projeto -->
     <section class="sobre" id="sobre">
-      <h2>Por que Desenvolvimento de Jogos?</h2>
+      <span class="sobre-title">Porquê sobre desenvolvimento de jogos</span>
+        <p style="color: rgb(136, 138, 135);">Eu gosto de jogos e gosto de criar jogos</p>
+
       <div class="blocos">
-        <div class="bloco">
+        <div class="blocos-item">
           <h3>Origem</h3>
-          <p>Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
+          <p >Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
         </div>
-        <div class="bloco">
+        <div class="blocos-item">
           <h3>Conexão Pessoal</h3>
           <p>Aprender a criar jogos me fez entender como arte, código e emoção se encontram.</p>
         </div>
-        <div class="bloco">
+        <div class="blocos-item">
           <h3>O que você verá aqui</h3>
           <p>Um mundo interativo que coleta suas experiências e mostra o que nos une nesse universo.</p>
         </div>
       </div>
+      
     </section>
+    <div class="areas">
+        <div class="area">
+          <h3>Arte</h3>
+          <p>O que é arte? O que é arte para você?</p>
+        </div>
+        <div class="area">
+          <h3>Código</h3>
+          <p>O que é código? O que é código para você?</p>
+        </div>
+        <div class="area">
+          <h3>Emoção</h3>
+          <p>O que é emoção? O que é emoção para você?</p>
+        </div>
+</div>
 
+
+    <!-- Tela de Login/Cadastro -->
+<section class="auth" id="auth">
+  <h1>Login/Cadastro</h1>
+  <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da nossa comunidade de apreciadores de games.</h2>
+  
+  <div class="auth-container">
+    <div class="auth-header">
+      <button onclick="mostrarLogin()">Login</button>
+      <button onclick="mostrarCadastro()">Cadastro</button>
+    </div>
+    
+    <form class="auth-form" id="form-login">
+      <h2>Login</h2>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Senha" required>
+      <button style="align-self: center;" type="submit" class="jogar">Entrar</button>
+    </form>
+
+    <form class="auth-form" id="form-cadastro" style="display: none;">
+      <h2>Cadastro</h2>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Senha" required>
+      <input type="password" placeholder="Confirmar Senha" required>
+      <button style="align-self: center;" type="submit" class="jogar">Cadastrar</button>
+    </form>
+  </div>
+</section>
     <!-- Rodapé -->
     <footer>
       <p>&copy; 2025 HAZE - Criado por [Seu Nome]</p>
     </footer>
+
+
+
+    <script>
+  function mostrarLogin() {
+    document.getElementById("form-login").style.display = "flex";
+    document.getElementById("form-cadastro").style.display = "none";
+  }
+
+  function mostrarCadastro() {
+    document.getElementById("form-login").style.display = "none";
+    document.getElementById("form-cadastro").style.display = "flex";
+  }
+</script>
 </body>
 
 <script src="data/collisions.js"></script>
