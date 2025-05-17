@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Comunidade - HAZE</title>
+
+  <link rel="stylesheet" href="./css/dashboard.css">
+  
+</head>
+<body>
+ <header>
+   <a href="index.html"><div class="logo">HAZE</div></a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="comunidade.html">Comunidade</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="perfil.html">Perfil</a>
+    </nav>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="mural">Mural de Arte</button>
+    <button class="tab-btn" data-tab="forum">Fórum</button>
+  </div>
+
+  <div class="filtros">
+    <input type="text" id="busca" placeholder="Buscar...">
+    <select id="ordenar">
+      <option value="recentes">Mais Recentes</option>
+      <option value="populares">Mais Populares</option>
+    </select>
+  </div>
+
+  <div class="conteudo">
+    <!-- Mural -->
+    <div class="tab conteudo-tab" id="mural">
+      <div class="grid-mural">
+        <!-- Card de exemplo -->
+        <div class="card-imagem" data-titulo="Paisagem">
+          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
+          <div class="info">
+            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
+            <div class="autor">Alice</div>
+            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
+          </div>
+          <div class="acoes">
+            <button class="btn-like">👍</button>
+            <button class="btn-comentar">💬</button>
+          </div>
+        </div>
+        <!-- Adicionar mais cards... -->
+      </div>
+    </div>
+
+    <!-- Fórum -->
+    <div class="tab conteudo-tab" id="forum" style="display:none;">
+      <button id="novaPostagem" style="margin-bottom:15px;">+ Nova Postagem</button>
+      <ul class="lista-posts">
+        <li class="post-item" data-titulo="Dicas para sprites">
+          <a href="#" class="titulo">Dicas para animar sprites 2D</a>
+          <div class="meta">Bruno • 17/05/2025 • 5 respostas</div>
+          <p class="trecho">Estou tentando animar um personagem 2D e quero usar keyframes...</p>
+        </li>
+        <!-- Adicionar mais posts... -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Modal genérico -->
+  <div class="modal" id="modal">
+    <div class="modal-conteudo">
+      <button class="fechar" id="fecharModal">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Troca de tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.getAttribute('data-tab');
+        document.querySelectorAll('.conteudo-tab').forEach(c => c.style.display = 'none');
+        document.getElementById(tab).style.display = 'block';
+      });
+    });
+
+    // Modal de imagem
+    document.querySelectorAll('.card-imagem').forEach(card => {
+      card.addEventListener('click', () => {
+        const titulo = card.getAttribute('data-titulo');
+        const src = card.querySelector('img').src;
+        const html = `<h3>${titulo}</h3><img src="${src}" style="width:100%; border-radius:8px;">`;
+        document.getElementById('modalBody').innerHTML = html;
+        document.getElementById('modal').classList.add('active');
+      });
+    });
+
+    // Nova postagem modal
+    document.getElementById('novaPostagem').addEventListener('click', () => {
+      const form = `
+        <h3>Criar Nova Postagem</h3>
+        <input type="text" id="postTitle" placeholder="Título" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+        <textarea id="postContent" rows="5" placeholder="Conteúdo..." style="width:100%; padding:8px;"></textarea><br>
+        <button id="salvarPost" style="padding:10px; margin-top:10px;">Salvar</button>
+      `;
+      document.getElementById('modalBody').innerHTML = form;
+      document.getElementById('modal').classList.add('active');
+      document.getElementById('salvarPost').addEventListener('click', () => {
+        alert('Post salvo (simulação)!');
+        document.getElementById('fecharModal').click();
+      });
+    });
+
+    // Fechar modal
+    document.getElementById('fecharModal').addEventListener('click', () => {
+      document.getElementById('modal').classList.remove('active');
+    });
+
+    // Filtro de busca simples (título)
+    document.getElementById('busca').addEventListener('input', e => {
+      const termo = e.target.value.toLowerCase();
+      document.querySelectorAll('.conteudo-tab:visible .post-item, .conteudo-tab:visible .card-imagem').forEach(item => {
+        const text = item.getAttribute('data-titulo').toLowerCase();
+        item.style.display = text.includes(termo) ? '' : 'none';
+      });
+    });
+
+    // Filtro de ordenar (simulação)
+    document.getElementById('ordenar').addEventListener('change', e => {
+      // Aqui você implementa lógica de reordenar conforme critério
+      console.log('Ordenar por:', e.target.value);
+    });
+  </script>
+</body>
+</html>

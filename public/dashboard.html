@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - HAZE</title>
+<link rel="stylesheet" href="./css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <a href="index.html"><div class="logo">HAZE</div></a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="comunidade.html">Comunidade</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="perfil.html">Perfil</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>🎮 Dashboard HAZE</h1>
+    <div class="dashboard-grid">
+
+      <!-- Card: Usuários Mais Ativos -->
+      <div class="card">
+        <h2>👤 Usuários Mais Ativos</h2>
+        <ul class="ranking">
+          <li>🔥 Alice (12 posts)</li>
+          <li>🔥 Bruno (10 posts)</li>
+          <li>🔥 Carol (9 posts)</li>
+        </ul>
+      </div>
+
+      <!-- Card: Top Imagens -->
+      <div class="card">
+        <h2>🖼️ Top Imagens do Mural</h2>
+        <img class="imagem-thumb" src="https://via.placeholder.com/300x150" alt="Arte 1">
+        <p class="stats">⭐️⭐️⭐️⭐️☆ (4.2)</p>
+        <img class="imagem-thumb" src="https://via.placeholder.com/300x150" alt="Arte 2">
+        <p class="stats">⭐️⭐️⭐️⭐️⭐️ (5.0)</p>
+      </div>
+
+      <!-- Card: Ranking do Minigame -->
+      <div class="card">
+        <h2>🏅 Ranking do Minigame</h2>
+        <ul class="ranking">
+          <li>🎯 Diego - 850 pts</li>
+          <li>🎯 Fernanda - 800 pts</li>
+          <li>🎯 João - 790 pts</li>
+        </ul>
+      </div>
+
+      <!-- Card: Atividade Recente -->
+      <div class="card">
+        <h2>📅 Atividade Recente</h2>
+        <ul class="ranking">
+          <li>📝 Novo post de Alice</li>
+          <li>📸 Imagem enviada por Carol</li>
+          <li>💬 Comentário de Bruno</li>
+        </ul>
+      </div>
+
+      <!-- Card: Estatísticas Gerais -->
+      <div class="card">
+        <h2>📊 Estatísticas Gerais</h2>
+        <div class="stats">
+          <p>Total de usuários: 28</p>
+          <p>Imagens postadas: 63</p>
+          <p>Média geral das notas: ⭐️ 4.3</p>
+        </div>
+      </div>
+
+      <!-- Chart: Postagens por Usuário -->
+      <div class="card">
+        <h2>👤 Postagens por Usuário</h2>
+        <canvas id="chartPosts"></canvas>
+      </div>
+
+      <!-- Chart: Avaliações de Imagens -->
+      <div class="card">
+        <h2>⭐ Avaliações das Imagens</h2>
+        <canvas id="chartAvaliacoes"></canvas>
+      </div>
+
+      <!-- Chart: Pontuações do Minigame -->
+      <div class="card">
+        <h2>🎯 Pontuações Recentes</h2>
+        <canvas id="chartPontuacoes"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Gráfico de barras - Postagens
+    const postsCtx = document.getElementById('chartPosts').getContext('2d');
+    new Chart(postsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Alice','Bruno','Carol','Diego','Fernanda'],
+        datasets: [{ label:'Posts', data:[12,10,9,7,6] }]
+      },
+      options: { scales:{ y:{ beginAtZero:true } } }
+    });
+
+    // Gráfico de pizza - Avaliações
+    const avalCtx = document.getElementById('chartAvaliacoes').getContext('2d');
+    new Chart(avalCtx, {
+      type: 'pie',
+      data: {
+        labels:['5⭐','4⭐','3⭐','2⭐','1⭐'], datasets:[{ data:[25,15,8,3,1] }]
+      }
+    });
+
+    // Gráfico de linha - Pontuações
+    const pontCtx = document.getElementById('chartPontuacoes').getContext('2d');
+    new Chart(pontCtx, {
+      type: 'line',
+      data: {
+        labels:['01/05','03/05','05/05','07/05','09/05'], datasets:[{ label:'Média', data:[600,700,750,720,800], fill:false, tension:0.2 }]
+      },
+      options:{ scales:{ y:{ beginAtZero:true } } }
+    });
+  </script>
+</body>
+</html>

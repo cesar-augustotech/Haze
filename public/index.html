@@ -17,140 +17,178 @@
 
     <div class="header-right">
       <button class="jogar" onclick="jogar()">Começar</button>
-      <button class="jogar" onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
-     <button style="background-color: 0,0,0,0;border: 0cap;"><img style="background-color: 0,0,0,0; height: 30px; width: 30px;" src="./assets/3-bars.png"></div></button>
-     
+      <button class="jogar"
+        onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
+      <button style="background-color: 0,0,0,0;border: 0cap;"><img
+          style="background-color: 0,0,0,0; height: 30px; width: 30px;" src="./assets/3-bars.png">
+    </div></button>
+
     </div>
 
   </header>
 
   <main>
-    <div class="fundo-game">    <div class="banner" id="banner">
-      <div class="banner-content">
-        <h1>Descubra o mundo por trás dos games.</h1>
-        <p style="font-size: 50%;">Aprenda, jogue, e entenda por que isso importa para mim</p>
+    <div class="fundo-game">
+      <div class="banner" id="banner">
+        <div class="banner-content">
+          <h1>Descubra o mundo por trás dos games.</h1>
+          <p style="font-size: 50%;">Aprenda, jogue, e entenda por que isso importa para mim</p>
+        </div>
+        <div>
+          <button class="jogar" style="color:white;border-color:white; box-shadow: 5px 5px rgba(255,255,255,1)"
+            onclick="jogar()">Jogar</button>
+          <button class="jogar"
+            style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;"
+            onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Sobre</button>
+        </div>
       </div>
-      <div>
-      <button class="jogar" style="color:white;border-color:white; box-shadow: 5px 5px rgba(255,255,255,1)" onclick="jogar()">Jogar</button>
-      <button class="jogar" style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Sobre</button>
-    </div>
-  </div>
-    
-    
-    <div class="game-div" id="game_div"> 
-      <canvas class="game" id="jogo_canvas"></canvas>
-      <h1 style = "color:white">Faça parte da nossa cominudade</h1><button class="jogar" onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
-</div>
+
+
+      <div class="game-div" id="game_div">
+        
+        <canvas class="game" id="jogo_canvas"></canvas>
+        <br>
+        <h1 style="color:white">Faça parte da nossa cominudade</h1><button class="jogar"
+          onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
+          <br>  <button class="jogar"
+            style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;"
+            onclick="pararJogo()">Parar jogo</button>
+
+      </div>
 
     </div>
 
     <!-- Sobre o Projeto -->
     <section class="sobre" id="sobre">
       <span class="sobre-title">Porquê sobre desenvolvimento de jogos</span>
-        <p style="color: rgb(136, 138, 135);">Eu gosto de jogos e gosto de criar jogos</p>
+      <p style="color: rgb(136, 138, 135);">Eu gosto de jogos e gosto de criar jogos</p>
 
       <div class="blocos">
         <div class="blocos-item">
           <h3>Origem</h3>
-          <p >Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
+          <p>Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
           <div class="mais-texto">
-      <h4>Origem – Detalhes</h4>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula metus nec elit bibendum, vitae pharetra velit tincidunt. Suspendisse potenti. Integer et lorem sed sem commodo condimentum. Fusce accumsan lectus at est efficitur...
-      </p>
-      <!-- aqui pode adicionar mais parágrafos, listas, imagens etc -->
-    </div>
+            <h4>Origem – Detalhes</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula metus nec elit bibendum,
+              vitae pharetra velit tincidunt. Suspendisse potenti. Integer et lorem sed sem commodo condimentum. Fusce
+              accumsan lectus at est efficitur...
+            </p>
+            <!-- aqui pode adicionar mais parágrafos, listas, imagens etc -->
+          </div>
         </div>
         <div class="blocos-item">
           <h3>Conexão Pessoal</h3>
           <p>Aprender a criar jogos me fez entender como arte, código e emoção se encontram.</p>
           <div class="mais-texto">
-      <h4>Conexão Pessoal – Detalhes</h4>
-      <p>
-        Descreva aqui como os jogos influenciaram sua vida, exemplos de momentos marcantes, ...
-      </p>
-    </div>
+            <h4>Conexão Pessoal – Detalhes</h4>
+            <p>
+              Descreva aqui como os jogos influenciaram sua vida, exemplos de momentos marcantes, ...
+            </p>
+          </div>
         </div>
         <div class="blocos-item">
           <h3>O que você verá aqui</h3>
           <p>Um mundo interativo que coleta suas experiências e mostra o que nos une nesse universo.</p>
           <div class="mais-texto">
-      <h4>O que você verá aqui – Detalhes</h4>
-      <p>
-        Explique as funcionalidades previstas, fluxo de navegação, interação com usuário, ...
-      </p>
-    </div>
+            <h4>O que você verá aqui – Detalhes</h4>
+            <p>
+              Explique as funcionalidades previstas, fluxo de navegação, interação com usuário, ...
+            </p>
+          </div>
         </div>
       </div>
 
-      
-      
-    </section>
-        <!-- Tela de Login/Cadastro -->
-<section class="auth" id="auth">
-  <h1>Login/Cadastro</h1>
-  <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da nossa comunidade de apreciadores de games.</h2>
-  
-  <div class="auth-container">
-    <div class="auth-header">
-      <button onclick="mostrarLogin()">Login</button>
-      <button onclick="mostrarCadastro()">Cadastro</button>
-    </div>
-    
-    <form class="auth-form" id="form-login">
-      <h2>Login</h2>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Senha" required>
-      <button style="align-self: center;" type="submit" class="jogar">Entrar</button>
-    </form>
 
-    <form class="auth-form" id="form-cadastro" style="display: none;">
-      <h2>Cadastro</h2>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Senha" required>
-      <input type="password" placeholder="Confirmar Senha" required>
-      <button style="align-self: center;" type="submit" class="jogar">Cadastrar</button>
-    </form>
+
+    </section>
+    <!-- Tela de Login/Cadastro -->
+    <section class="auth" id="auth">
+      <h1>Login/Cadastro</h1>
+      <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da comunidade HAZE.</h2>
+
+      <div class="auth-container">
+  <div class="auth-header">
+    <button onclick="mostrarLogin()">Login</button>
+    <button onclick="mostrarCadastro()">Cadastro</button>
   </div>
-</section>
+  <div class="auth-content">
+   
+  
+  <!-- Login -->
+  <from class="auth-div" id="div-login" style="display: flex; flex-direction: column; gap: 10px;">
+    <h2>Login</h2>
+    <input id="login-email" type="email" placeholder="Email" required>
+    <input id="login-senha" type="password" placeholder="Senha" required>
+    <button style="align-self: center;" class="jogar" onclick="clicarLogin()">Entrar</button>
+  </from>
+
+  <!-- Cadastro -->
+  <form class="auth-div" id="div-cadastro" style="display: none; flex-direction: column; gap: 10px;">
+    <h2>Cadastro</h2>
+    <input id="cadastro-email" type="email" placeholder="Email" required>
+    <input id="cadastro-senha" type="password" placeholder="Senha" required>
+    <input id="cadastro-confirmar" type="password" placeholder="Confirmar Senha" required>
+    <input id="cadastro-usuario" type="text" placeholder="Usuário" required>
+    <input id="cadastro-SteamId" type="text" placeholder="SteamId">
+    <button style="align-self: center;" class="jogar" onclick="clicarCadastro()">Cadastrar</button>
+  </form>
+</div>
+    </section>
+    <iframe id="iframeComunidade" src="comunidade.html" style="display:none; width:100vw; height:100vh; border:none; position:fixed; top:0; left:0; z-index:9999; background:#181818;"></iframe>
+
+    <!--
     <div class="areas">
-        <div class="area">
-          <h3>Arte</h3>
-          <p>O que é arte? O que é arte para você?</p>
-        </div>
-        <div class="area">
-          <h3>Código</h3>
-          <p>O que é código? O que é código para você?</p>
-        </div>
-        <div class="area">
-          <h3>Emoção</h3>
-          <p>O que é emoção? O que é emoção para você?</p>
-        </div>
+      <div class="area">
+        <h3>Arte</h3>
+        <p>O que é arte? O que é arte para você?</p>
+      </div>
+      <div class="area">
+        <h3>Código</h3>
+        <p>O que é código? O que é código para você?</p>
+      </div>
+      <div class="area">
+        <h3>Emoção</h3>
+        <p>O que é emoção? O que é emoção para você?</p>
+      </div>
+    </div>
+
+
+
+    <div id="perfilSteam">
+  <img id="avatarSteam" src="" alt="Avatar Steam">
+  <h3 id="nomeSteam"></h3>
+  <a id="linkPerfil" href="#" target="_blank">Ver perfil Steam</a>
+  <button id="btnLogout" onclick="carregarPerfilSteam(76561199202684456)">Exibir Perfil</button>
 </div>
 
+-->
+    
 
-
+    </main>
     <!-- Rodapé -->
     <footer>
-      <p>&copy; 2025 HAZE - Criado por [Seu Nome]</p>
+      <p>&copy; 2025 HAZE - Criado por Beinho</p>
     </footer>
 
 
 
     <script>
-  function mostrarLogin() {
-    document.getElementById("form-login").style.display = "flex";
-    document.getElementById("form-cadastro").style.display = "none";
-  }
+      function mostrarLogin() {
+        document.getElementById("div-login").style.display = "flex";
+        document.getElementById("div-cadastro").style.display = "none";
+      }
 
-  function mostrarCadastro() {
-    document.getElementById("form-login").style.display = "none";
-    document.getElementById("form-cadastro").style.display = "flex";
-  }
-</script>
+      function mostrarCadastro() {
+        document.getElementById("div-login").style.display = "none";
+        document.getElementById("div-cadastro").style.display = "flex";
+      }
+    </script>
 </body>
+
 
 <script src="data/collisions.js"></script>
 <script src="js/script.js"></script>
+<script src="js/game.js"></script>
 
 </html>
