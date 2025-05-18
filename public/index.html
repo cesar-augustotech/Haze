@@ -45,14 +45,14 @@
 
 
       <div class="game-div" id="game_div">
-        
+
         <canvas class="game" id="jogo_canvas"></canvas>
         <br>
         <h1 style="color:white">Faça parte da nossa cominudade</h1><button class="jogar"
           onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
-          <br>  <button class="jogar"
-            style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;"
-            onclick="pararJogo()">Parar jogo</button>
+        <br> <button class="jogar"
+          style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;"
+          onclick="pararJogo()">Parar jogo</button>
 
       </div>
 
@@ -104,38 +104,44 @@
     </section>
     <!-- Tela de Login/Cadastro -->
     <section class="auth" id="auth">
-      <h1>Login/Cadastro</h1>
-      <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da comunidade HAZE.</h2>
+
+
+      <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da
+        comunidade HAZE.</h2>
 
       <div class="auth-container">
-  <div class="auth-header">
-    <button onclick="mostrarLogin()">Login</button>
-    <button onclick="mostrarCadastro()">Cadastro</button>
-  </div>
-  <div class="auth-content">
-   
-  
-  <!-- Login -->
-  <from class="auth-div" id="div-login" style="display: flex; flex-direction: column; gap: 10px;">
-    <h2>Login</h2>
-    <input id="login-email" type="email" placeholder="Email" required>
-    <input id="login-senha" type="password" placeholder="Senha" required>
-    <button style="align-self: center;" class="jogar" onclick="clicarLogin()">Entrar</button>
-  </from>
+        <div class="auth-header">
+          <button onclick="mostrarLogin()">Login</button>
+          <button onclick="mostrarCadastro()">Cadastro</button>
+        </div>
+        <div class="auth-content">
 
-  <!-- Cadastro -->
-  <form class="auth-div" id="div-cadastro" style="display: none; flex-direction: column; gap: 10px;">
-    <h2>Cadastro</h2>
-    <input id="cadastro-email" type="email" placeholder="Email" required>
-    <input id="cadastro-senha" type="password" placeholder="Senha" required>
-    <input id="cadastro-confirmar" type="password" placeholder="Confirmar Senha" required>
-    <input id="cadastro-usuario" type="text" placeholder="Usuário" required>
-    <input id="cadastro-SteamId" type="text" placeholder="SteamId">
-    <button style="align-self: center;" class="jogar" onclick="clicarCadastro()">Cadastrar</button>
-  </form>
-</div>
+
+          <!-- Login -->
+          <from class="auth-div" id="div-login" style="display: flex; flex-direction: column; gap: 10px;">
+            <h2>Login</h2>
+            <input id="login-email" type="email" placeholder="Email" required>
+            <input id="login-senha" type="password" placeholder="Senha" required>
+            <button style="align-self: center;" class="jogar" onclick="clicarLogin()">Entrar</button>
+          </from>
+
+          <!-- Cadastro -->
+          <form class="auth-div" id="div-cadastro" style="display: none; flex-direction: column; gap: 10px;">
+            <h2>Cadastro</h2>
+            <input id="cadastro-email" type="email" placeholder="Email" required>
+            <input id="cadastro-senha" type="password" placeholder="Senha" required>
+            <input id="cadastro-confirmar" type="password" placeholder="Confirmar Senha" required>
+            <input id="cadastro-usuario" type="text" placeholder="Usuário" required>
+            <input id="cadastro-SteamId" type="text" placeholder="SteamId">
+            <button style="align-self: center;" class="jogar" onclick="clicarCadastro()">Cadastrar</button>
+          </form>
+
+
+        </div>
+
+        <h1>Login/Cadastro</h1>
     </section>
-    <iframe id="iframeComunidade" src="comunidade.html" style="display:none; width:100vw; height:100vh; border:none; position:fixed; top:0; left:0; z-index:9999; background:#181818;"></iframe>
+
 
     <!--
     <div class="areas">
@@ -163,32 +169,69 @@
 </div>
 
 -->
+
+
+  </main>
+  <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2025 HAZE - Criado por Beinho</p>
+  </footer>
+
+
+
+  <script>
+
+    async function clicarLogin() {
+      var email = document.getElementById("login-email").value;
+      var senha = document.getElementById("login-senha").value;
+
+      if (email == "" || senha == "") {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      let dados = await fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          emailServer: email,
+          senhaServer: senha,
+        })
+      });
+
+      if (!dados.ok) {
+        // Se status não for 200, mostra erro
+        let erro = await dados.text();
+        alert(erro);
+        return;
+      }
+
+      let usuario = await dados.json();
+      sessionStorage.setItem("usuario", JSON.stringify(usuario));
+      alert("Login realizado com sucesso!");
+      window.location.href = "/comunidade.html";
+    }
+
+
     
 
-    </main>
-    <!-- Rodapé -->
-    <footer>
-      <p>&copy; 2025 HAZE - Criado por Beinho</p>
-    </footer>
 
+    function mostrarLogin() {
+      document.getElementById("div-login").style.display = "flex";
+      document.getElementById("div-cadastro").style.display = "none";
+    }
 
-
-    <script>
-      function mostrarLogin() {
-        document.getElementById("div-login").style.display = "flex";
-        document.getElementById("div-cadastro").style.display = "none";
-      }
-
-      function mostrarCadastro() {
-        document.getElementById("div-login").style.display = "none";
-        document.getElementById("div-cadastro").style.display = "flex";
-      }
-    </script>
+    function mostrarCadastro() {
+      document.getElementById("div-login").style.display = "none";
+      document.getElementById("div-cadastro").style.display = "flex";
+    }
+  </script>
 </body>
 
 
 <script src="data/collisions.js"></script>
-<script src="js/script.js"></script>
 <script src="js/game.js"></script>
 
 </html>

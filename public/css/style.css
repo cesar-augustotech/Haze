@@ -235,6 +235,8 @@ display: flex;
   justify-content: center;
   align-items: center;
   padding: 50px 10vw;
+    position: relative;
+  overflow: hidden;
 }
 .auth h1 {
   font-size: 3rem;
@@ -283,4 +285,18 @@ display: flex;
   font-size: 1rem;
   border: 2px solid black;
   border-radius: 10px;
+}
+
+/* Adicione ao final do seu style.css */
+.auth #iframeComunidade {
+  padding: 0 40px 0 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 10;
+  background: #181818;
+  display: none; /* Mostre com JS quando necessário */
 }
