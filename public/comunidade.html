@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Comunidade - HAZE</title>
 
   <link rel="stylesheet" href="./css/dashboard.css">
-  
+
 </head>
+
 <body>
- <header>
-   <a href="index.html"><div class="logo">HAZE</div></a>
+  <header>
+    <a href="index.html">
+      <div class="logo">HAZE</div>
+    </a>
     <nav>
-      <a href="index.html">Início</a>
+
       <a href="comunidade.html">Comunidade</a>
       <a href="dashboard.html">Dashboard</a>
-      <a href="perfil.html">Perfil</a>
+      <a class="nav-perfil" href="perfil.html">Perfil</a>
     </nav>
   </header>
 
@@ -48,6 +52,32 @@
             <button class="btn-comentar">💬</button>
           </div>
         </div>
+
+        <div class="card-imagem" data-titulo="Paisagem">
+          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
+          <div class="info">
+            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
+            <div class="autor">Alice</div>
+            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
+          </div>
+          <div class="acoes">
+            <button class="btn-like">👍</button>
+            <button class="btn-comentar">💬</button>
+          </div>
+        </div>
+        <div class="card-imagem" data-titulo="Paisagem">
+          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
+          <div class="info">
+            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
+            <div class="autor">Alice</div>
+            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
+          </div>
+          <div class="acoes">
+            <button class="btn-like">👍</button>
+            <button class="btn-comentar">💬</button>
+          </div>
+        </div>
+
         <!-- Adicionar mais cards... -->
       </div>
     </div>
@@ -75,6 +105,35 @@
   </div>
 
   <script>
+
+    // Verifica se existe usuário salvo na sessão
+    const usuario = sessionStorage.getItem("usuario");
+
+    async function validarUsuario() {
+
+      if (!usuario) {
+        await sessionStorage.setItem("avisoLogin", "Você precisa estar logado para acessar esta página.");
+        window.location.href = "index.html#auth";
+      }
+    }
+    validarUsuario();
+
+
+
+    try {
+      const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+      console.log(usuario, usuario.avatar_url);
+      if (usuario) {
+        document.querySelector(".nav-perfil").innerHTML = `${usuario.username} <img class="pfp" src="${usuario.avatar_url}" alt="Foto de perfil"> `;
+      }
+    } catch (error) {
+      console.error("Erro ao carregar o usuário:", error);
+    }
+
+
+
+
+
     // Troca de tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -86,6 +145,39 @@
       });
     });
 
+    function carregarCards() {
+      const muralTab = document.getElementById('mural');
+      const muralGrid = muralTab.querySelector('.grid-mural');
+      muralGrid.innerHTML = ''; // Limpa os cards existentes
+
+      // Simulação de carregamento de cards
+      muralConteudo.forEach(card => {
+        const muralCards = document.createElement('div');
+        card.addEventListener('click', () => {
+          const titulo = card.getAttribute('data-titulo');
+          const src = card.querySelector('img').src;
+          const html = `<h3>${titulo}</h3><img src="${src}" style="width:100%; border-radius:8px;">`;
+          document.getElementById('modalBody').innerHTML = html;
+          document.getElementById('modal').classList.add('active');
+        });
+      });
+    }
+    try {
+      const response = await fetch("/mural/listar");
+
+    } catch (error) {
+      console.error("Erro ao carregar os cards:", error);
+    }
+
+    const muralTab = document.getElementById('mural');
+    const muralBtn = document.querySelector('.tab-btn[data-tab="mural"]');
+    const muralGrid = muralTab.querySelector('.grid-mural');
+
+
+
+
+
+    /*
     // Modal de imagem
     document.querySelectorAll('.card-imagem').forEach(card => {
       card.addEventListener('click', () => {
@@ -132,6 +224,9 @@
       // Aqui você implementa lógica de reordenar conforme critério
       console.log('Ordenar por:', e.target.value);
     });
+
+    */
   </script>
 </body>
+
 </html>

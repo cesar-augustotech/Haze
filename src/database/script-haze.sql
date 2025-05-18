@@ -2,13 +2,17 @@ CREATE DATABASE haze;
 USE haze;
 
 
+
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL Unique,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    avatar_url TEXT
+    avatar_url TEXT,
+    steamId		VARCHAR(100) UNIQUE
 );
+
+
 
 
 CREATE TABLE posts (

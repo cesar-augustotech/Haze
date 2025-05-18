@@ -17,8 +17,7 @@
 
     <div class="header-right">
       <button class="jogar" onclick="jogar()">Começar</button>
-      <button class="jogar"
-        onclick="document.getElementById('auth').scrollIntoView({behavior: 'smooth'})">Login</button>
+      <button class="jogar" onclick="window.location.href='comunidade.html'">Comunidade</button>
       <button style="background-color: 0,0,0,0;border: 0cap;"><img
           style="background-color: 0,0,0,0; height: 30px; width: 30px;" src="./assets/3-bars.png">
     </div></button>
@@ -105,6 +104,10 @@
     <!-- Tela de Login/Cadastro -->
     <section class="auth" id="auth">
 
+      <div id="mensagem-alerta"
+        style="display:none; position:fixed; top:30px; left:50%; transform:translateX(-50%); background:#222; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:9999; font-size:1.1rem;">
+      </div>
+
 
       <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da
         comunidade HAZE.</h2>
@@ -118,12 +121,12 @@
 
 
           <!-- Login -->
-          <from class="auth-div" id="div-login" style="display: flex; flex-direction: column; gap: 10px;">
+          <form class="auth-div" id="div-login" style="display: flex; flex-direction: column; gap: 10px;">
             <h2>Login</h2>
             <input id="login-email" type="email" placeholder="Email" required>
             <input id="login-senha" type="password" placeholder="Senha" required>
-            <button style="align-self: center;" class="jogar" onclick="clicarLogin()">Entrar</button>
-          </from>
+            <button type="button" style="align-self: center;" class="jogar" onclick="logar()">Entrar</button>
+          </form>
 
           <!-- Cadastro -->
           <form class="auth-div" id="div-cadastro" style="display: none; flex-direction: column; gap: 10px;">
@@ -133,7 +136,7 @@
             <input id="cadastro-confirmar" type="password" placeholder="Confirmar Senha" required>
             <input id="cadastro-usuario" type="text" placeholder="Usuário" required>
             <input id="cadastro-SteamId" type="text" placeholder="SteamId">
-            <button style="align-self: center;" class="jogar" onclick="clicarCadastro()">Cadastrar</button>
+            <button type="button" style="align-self: center;" class="jogar" onclick="cadastrar()">Cadastrar</button>
           </form>
 
 
@@ -180,15 +183,46 @@
 
 
   <script>
+    //Função para exibir alerta login/cadastro
+    function mostrarMensagem(texto, corFundo = "#222", loading = false) {
+      const div = document.getElementById("mensagem-alerta");
+      if (loading) {
+        div.innerHTML = `${texto}<img src="./assets/circle-loading.gif" alt="Carregando..." style="height:24px;vertical-align:middle;margin-right:10px;">`;
+      } else {
+        div.innerText = texto;
+      }
+      div.style.background = corFundo;
+      div.style.display = "block";
+      // Esconde após 3 segundos (apenas se não for loading)
+      if (!loading) {
+        setTimeout(() => {
+          div.style.display = "none";
+        }, 3000);
+      }
+    }
+    window.addEventListener("DOMContentLoaded", function () {
+      const aviso = sessionStorage.getItem("avisoLogin");
+      if (aviso) {
+        alert(aviso);
+        mostrarLogin(); // Função que exibe a section de login
+        sessionStorage.removeItem("avisoLogin");
+      }
+    });
 
-    async function clicarLogin() {
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    async function logar() {
       var email = document.getElementById("login-email").value;
       var senha = document.getElementById("login-senha").value;
 
       if (email == "" || senha == "") {
-        alert("Preencha todos os campos!");
+        mostrarMensagem("Preencha todos os campos!", "#c0392b");
         return;
       }
+
+      mostrarMensagem("Realizando Login", "#2980b9", true); // azul
+      await delay(1500);
 
       let dados = await fetch("/usuarios/autenticar", {
         method: "POST",
@@ -202,20 +236,65 @@
       });
 
       if (!dados.ok) {
-        // Se status não for 200, mostra erro
         let erro = await dados.text();
-        alert(erro);
+        mostrarMensagem(erro, "#c0392b");
         return;
       }
 
-      let usuario = await dados.json();
+      const usuario = await dados.json();
       sessionStorage.setItem("usuario", JSON.stringify(usuario));
-      alert("Login realizado com sucesso!");
+      mostrarMensagem("Login realizado com sucesso! Redirecionando", "#27ae60", true);
+      await delay(1500);
+      mostrarMensagem("Seja Bem-Vindo(a)!", "#27ae60");
+      await delay(1000);
       window.location.href = "/comunidade.html";
     }
 
 
-    
+    async function cadastrar() {
+      var email = document.getElementById("cadastro-email").value;
+      var senha = document.getElementById("cadastro-senha").value;
+      var confirmar = document.getElementById("cadastro-confirmar").value;
+      var usuario = document.getElementById("cadastro-usuario").value;
+      var steamId = document.getElementById("cadastro-SteamId").value;
+
+      if (senha != confirmar) {
+        mostrarMensagem("As senhas não coincidem!", "#c0392b");
+        return;
+      }
+      if (senha.length < 6) {
+        mostrarMensagem("A senha deve ter pelo menos 6 caracteres!", "#c0392b");
+        return;
+      }
+
+
+      mostrarMensagem("Realizando Cadastro", "#2980b9", true); // azul
+      await delay(1500);
+
+      let dados = await fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          emailServer: email,
+          senhaServer: senha,
+          nomeServer: usuario,
+          steamIdServer: steamId
+        })
+      });
+
+      if (!dados.ok) {
+        let erro = await dados.text();
+        mostrarMensagem(erro, "#c0392b");
+        return;
+      }
+
+      mostrarMensagem("Cadastro realizado com sucesso! Realize o login", "#27ae60");
+      await delay(1500);
+      mostrarLogin();
+    }
+
 
 
     function mostrarLogin() {

@@ -36,6 +36,7 @@ function cadastrar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var steamId = req.body.steamIdServer;
+    console.log(`\n\nEntrou na cadastrar: ${nome} ${email} ${senha} ${steamId}`);
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -44,7 +45,7 @@ function cadastrar(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
+    } else if (steamId == undefined) {
         res.status(400).send("Sua empresa a vincular está undefined!");
     } else {
 
