@@ -2,9 +2,12 @@
 ## [Documentação](https://bandteccom-my.sharepoint.com/:w:/g/personal/cesar_miguel_sptech_school/ESQZVg-CQXlPgu6jnY8BYKMBgTi5etBH5LLFVqzFjdpVTw?e=gUQaQV)
 
 ## 📌 Visão Geral
-Haze é um site interativo que utiliza um formato inspirado em jogos 2D retro para comunicar a importância dos jogos digitais e como eles podem influenciar positivamente as vidas das pessoas. O projeto visa destacar os benefícios dos jogos no desenvolvimento pessoal, inclusão social, aprendizado e bem-estar, tudo isso de uma forma leve e interativa.
+Haze é um site interativo, inspirado em jogos 2D retrô, que mostra como os games podem influenciar positivamente a vida das pessoas. Através de uma experiência leve e lúdica, destacamm-se benefícios em quatro pilares: desenvolvimento pessoal, inclusão social, aprendizado e bem-estar.
 
-O site apresenta uma narrativa simbólica, onde o usuário explora um mapa representando a trajetória do autor e como os jogos influenciaram seu caminho pessoal. Além disso, o projeto proporciona reflexões sobre o impacto dos jogos em diversas áreas, incluindo educação, saúde e economia.
+Embarque em um minijogo com narrativa simbólica, no qual você explora um mapa que representa a trajetória do autor e as fases em que os jogos marcaram seu caminho. Ao longo do percurso, convidamos você a refletir sobre o impacto dos games em áreas como educação, saúde e economia.
+
+## 📌 Comunidade Haze
+Conecte-se com outros entusiastas em nosso espaço colaborativo: compartilhe artes no mural, participe de discussões no fórum e dispute posições no ranking do minijogo. Aqui, toda paixão pelos jogos encontra um lugar para brilhar!
 
 ## 🚀 Objetivos
 Valorizar a importância dos jogos digitais: Mostrar como os jogos podem ser ferramentas poderosas para aprendizado, inclusão e autodescoberta.
@@ -21,7 +24,7 @@ Conteúdo informativo: Cada área do mapa oferece uma reflexão sobre o impacto 
 
 Estilo visual 2D retrô: O design do site é inspirado em jogos clássicos de RPG, com animações simples e gráficos pixelados.
 
-Interatividade: O usuário interage com o site usando as setas do teclado para mover o personagem entre diferentes áreas do mapa.
+Interatividade: O usuário tem a opção de jogar um minijogo de exploração usando as setas do teclado para mover o personagem entre diferentes áreas do mapa.
 
 ## 🔧 Tecnologias Utilizadas
 
@@ -31,9 +34,9 @@ JavaScript DOM: Manipulação de interações e movimentação do personagem no 
 
 Banco de dados: MySQL
 
-Piskel (ou similar): Criação de sprites e tiles em pixel art.
+Piskel & Tiled: Criação de sprites e tiles em pixel art.
 
-Figma (opcional): Planejamento e design do layout.
+Figma: Planejamento e design do layout.
 
 ## 🎮 Como Rodar o Projeto
 Para rodar o projeto localmente, siga os passos abaixo:
