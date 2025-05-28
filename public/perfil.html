@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil • HAZE</title>
+  <link rel="stylesheet" href="./css/dashboard.css">
+  <style>
+    /* Ajustes específicos para o perfil */
+    .container-perfil {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .card-perfil {
+      background: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #000;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .perfil-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .perfil-header .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .perfil-header .nome-usuario {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .perfil-bio {
+      font-size: .95rem;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
+    .perfil-steam {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .perfil-steam label {
+      color: #aaa;
+      font-size: .9rem;
+      width: 80px;
+    }
+    .perfil-steam #steamDisplay {
+      padding: 8px;
+      background: #333;
+      border-radius: 4px;
+      color: #fff;
+      flex: 1;
+    }
+    .perfil-steam #ipt_steamId {
+      display: none;
+      padding: 8px;
+      background: #333;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      flex: 1;
+    }
+
+    .perfil-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .perfil-buttons button {
+      flex: 1;
+      padding: 10px;
+      background: #00ccff;
+      color: #111;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .perfil-buttons button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+    .perfil-buttons button:hover:not(:disabled) {
+      background: #00a8cc;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="index.html">
+      <div class="logo">HAZE</div>
+    </a>
+    <nav>
+      <a href="comunidade.html">Comunidade</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a class="nav-perfil" href="perfil.html">
+        <!-- substituído dinamicamente -->
+        Perfil
+      </a>
+    </nav>
+  </header>
+
+  <div class="container-perfil">
+    <h1>Perfil de Usuário</h1>
+
+    <div class="card-perfil">
+      <div class="perfil-header">
+        <img id="avatar" src="https://via.placeholder.com/80" alt="Avatar" class="avatar">
+        <div class="nome-usuario" id="username">Binhozord</div>
+      </div>
+
+      <div class="perfil-bio" id="bio">
+        Apaixonado por jogos retro, pixel art e aventuras épicas. Sempre em busca de novos desafios!
+      </div>
+
+      <div class="perfil-steam">
+        <label for="ipt_steamId">Steam ID:</label>
+        <span id="steamDisplay">—</span>
+        <input id="ipt_steamId" type="text" placeholder="Cole seu SteamID">
+      </div>
+
+      <div class="perfil-buttons">
+        <button id="editBtn">Editar Perfil</button>
+        <button id="saveBtn" disabled>Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulação de usuário logado e perfil próprio
+    
+    const isOwner = true; // trocar conforme sesssionStorage ou login real
+
+    const steamDisplay = document.getElementById('steamDisplay');
+    const steamInput   = document.getElementById('ipt_steamId');
+    const editBtn      = document.getElementById('editBtn');
+    const saveBtn      = document.getElementById('saveBtn');
+
+    // Mostrar/ocultar botões baseado em ownership
+    if (!isOwner) {
+      steamInput.style.display = 'none';
+      editBtn.style.display   = 'none';
+      saveBtn.style.display   = 'none';
+    }
+
+    editBtn.addEventListener('click', () => {
+      
+      steamInput.value = steamDisplay.textContent === '—' ? '' : steamDisplay.textContent;
+      steamDisplay.style.display = 'none';
+      steamInput.style.display   = 'block';
+      saveBtn.disabled           = false;
+    });
+
+    saveBtn.addEventListener('click', () => {
+      const newId = steamInput.value.trim();
+    
+
+      // Aqui você faria chamada ao seu backend para salvar o novo SteamID
+      // Exemplo (fetch):
+      // fetch('/api/usuario/steam', { method:'POST', body: JSON.stringify({ steamId: newId }) })
+
+      // Após sucesso:
+      steamDisplay.textContent    = newId;
+      steamDisplay.style.display  = 'block';
+      steamInput.style.display    = 'none';
+      saveBtn.disabled            = true;
+    });
+
+    // Carregar usuário na nav
+    try {
+      const user = JSON.parse(sessionStorage.getItem('usuario'));
+      if (user) {
+        document.querySelector('.nav-perfil').innerHTML =
+          `${user.username} <img class="pfp" src="${user.avatar_url}" alt="Foto de perfil">`;
+        document.getElementById('avatar').src = user.avatar_url;
+        document.getElementById('username').textContent = user.username;
+        document.getElementById('bio').textContent = user.bio || 'Sem bio definida.';
+        document.getElementById('steamDisplay').textContent = user.steamId || '—';  
+      }
+    } catch (e) { /* sem usuário */ }
+  </script>
+</body>
+
+</html>

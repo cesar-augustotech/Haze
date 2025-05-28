@@ -60,12 +60,18 @@ h1 {
 }
 
 /* Grid padrão */
-.dashboard-grid,
-.grid-mural {
+.dashboard-grid {
   padding:50px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 20px;
+}
+
+.grid-mural {
+ display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 50px;
 }
 
 /* Cartões */
@@ -102,7 +108,24 @@ h1 {
   width: 100%;
   border-radius: 6px;
 }
+/* Card de imagem com tamanho fixo */
+.card-imagem {
+  max-width: 500px;
+  width: 100%;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 auto;
+}
 
+/* Imagem do card: cobre o topo do card, mantém proporção e corta excesso */
+.card-imagem img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 6px 6px 0 0;
+}
 /* Perfil de imagem no mural */
 .card-imagem {
   display: flex;
@@ -191,27 +214,38 @@ h1 {
 
 /* Modal */
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
   display: none;
-  align-items: center;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
   justify-content: center;
-  padding: 20px;
+  align-items: center;
 }
 .modal.active {
   display: flex;
 }
-.modal .modal-conteudo {
+
+.modal-conteudo {
   background: #222;
-  border-radius: 8px;
-  max-width: 600px;
-  width: 100%;
-  position: relative;
+  border-radius: 10px;
   padding: 20px;
+  max-width: 98vw;
+  max-height: 98vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#modalBody img {
+  display: block;
+  max-width: 100vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
 }
 .modal .fechar {
   position: absolute;
@@ -231,7 +265,7 @@ canvas {
 }
 
 /* Botão flutuante */
-#novaPostagem {
+.novaPostagem {
   background: #00ccff;
   color: #111;
   border: none;

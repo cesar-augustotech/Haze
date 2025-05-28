@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Comunidade - HAZE</title>
-
   <link rel="stylesheet" href="./css/dashboard.css">
-
 </head>
 
 <body>
@@ -15,7 +13,6 @@
       <div class="logo">HAZE</div>
     </a>
     <nav>
-
       <a href="comunidade.html">Comunidade</a>
       <a href="dashboard.html">Dashboard</a>
       <a class="nav-perfil" href="perfil.html">Perfil</a>
@@ -38,60 +35,17 @@
   <div class="conteudo">
     <!-- Mural -->
     <div class="tab conteudo-tab" id="mural">
-      <div class="grid-mural">
-        <!-- Card de exemplo -->
-        <div class="card-imagem" data-titulo="Paisagem">
-          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
-          <div class="info">
-            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
-            <div class="autor">Alice</div>
-            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
-          </div>
-          <div class="acoes">
-            <button class="btn-like">👍</button>
-            <button class="btn-comentar">💬</button>
-          </div>
-        </div>
-
-        <div class="card-imagem" data-titulo="Paisagem">
-          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
-          <div class="info">
-            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
-            <div class="autor">Alice</div>
-            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
-          </div>
-          <div class="acoes">
-            <button class="btn-like">👍</button>
-            <button class="btn-comentar">💬</button>
-          </div>
-        </div>
-        <div class="card-imagem" data-titulo="Paisagem">
-          <img src="https://via.placeholder.com/300x200" alt="Paisagem">
-          <div class="info">
-            <div><img src="https://via.placeholder.com/32" class="avatar" alt=""></div>
-            <div class="autor">Alice</div>
-            <div class="estrelas">⭐️⭐️⭐️⭐️☆</div>
-          </div>
-          <div class="acoes">
-            <button class="btn-like">👍</button>
-            <button class="btn-comentar">💬</button>
-          </div>
-        </div>
-
-        <!-- Adicionar mais cards... -->
+      <button class="novaPostagem" id="novaPostagemMural" style="margin-bottom:15px;">+ Nova Postagem</button>
+      <div class="grid-mural" id="lista-mural">
+        <!-- Os cards do mural serão inseridos aqui via JS -->
       </div>
     </div>
 
     <!-- Fórum -->
     <div class="tab conteudo-tab" id="forum" style="display:none;">
-      <button id="novaPostagem" style="margin-bottom:15px;">+ Nova Postagem</button>
-      <ul class="lista-posts">
-        <li class="post-item" data-titulo="Dicas para sprites">
-          <a href="#" class="titulo">Dicas para animar sprites 2D</a>
-          <div class="meta">Bruno • 17/05/2025 • 5 respostas</div>
-          <p class="trecho">Estou tentando animar um personagem 2D e quero usar keyframes...</p>
-        </li>
-        <!-- Adicionar mais posts... -->
+      <button class="novaPostagem" id="novaPostagemForum" style="margin-bottom:15px;">+ Nova Postagem</button>
+      <ul class="lista-posts" id="lista-forum">
+        <!-- Os posts do fórum serão inseridos aqui via JS -->
       </ul>
     </div>
   </div>
@@ -105,36 +59,75 @@
   </div>
 
   <script>
-
-    // Verifica se existe usuário salvo na sessão
-    const usuario = sessionStorage.getItem("usuario");
-
-    async function validarUsuario() {
-
-      if (!usuario) {
-        await sessionStorage.setItem("avisoLogin", "Você precisa estar logado para acessar esta página.");
-        window.location.href = "index.html#auth";
-      }
+    // Protege a página: só acessa se estiver logado
+    const usuarioStr = sessionStorage.getItem("usuario");
+    if (!usuarioStr) {
+      sessionStorage.setItem("avisoLogin", "Você precisa estar logado para acessar esta página.");
+      window.location.href = "index.html#auth";
     }
-    validarUsuario();
 
-
-
+    // Exibe usuário logado no menu
     try {
-      const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-      console.log(usuario, usuario.avatar_url);
+      const usuario = JSON.parse(usuarioStr);
       if (usuario) {
-        document.querySelector(".nav-perfil").innerHTML = `${usuario.username} <img class="pfp" src="${usuario.avatar_url}" alt="Foto de perfil"> `;
+        document.querySelector(".nav-perfil").innerHTML = `${usuario.username} <img class="pfp" src="${usuario.avatar_url || 'https://via.placeholder.com/32'}" alt="Foto de perfil"> `;
       }
     } catch (error) {
       console.error("Erro ao carregar o usuário:", error);
     }
 
+    // Função para buscar e renderizar cards do mural
+    async function carregarMural() {
+      const resp = await fetch('/posts/mural');
+      const posts = await resp.json();
+      const mural = document.getElementById('lista-mural');
+      mural.innerHTML = '';
+      posts.forEach(post => {
+        mural.innerHTML += `
+        <div class="card-imagem" data-titulo="">
+          <img src="${post.imagem}" alt="${post.descricao}">
+          <div class="info">
+            <div><img src="${post.avatar || 'https://via.placeholder.com/32'}" class="avatar" alt=""></div>
+            <div class="autor">${post.autor}</div>
+            <div class="estrelas">${post.estrelas || ''}</div>
+          </div>
+          <div class="acoes">
+            <button class="btn-like">👍</button>
+            <button class="btn-comentar">💬</button>
+          </div>
+        </div>
+      `;
+      });
+      // Reaplique eventos de modal nas novas cards
+      document.querySelectorAll('.card-imagem').forEach(card => {
+        card.addEventListener('click', () => {
+          const titulo = card.getAttribute('data-titulo');
+          const src = card.querySelector('img').src;
+          const html = `<h3>${titulo}</h3><img src="${src}" alt="${titulo}">`;
+          document.getElementById('modalBody').innerHTML = html;
+          document.getElementById('modal').classList.add('active');
+        });
+      });
+    }
 
+    // Função para buscar e renderizar posts do fórum
+   async function carregarForum() {
+  const resp = await fetch('/posts/forum');
+  const posts = await resp.json();
+  const forum = document.getElementById('lista-forum');
+  forum.innerHTML = '';
+  posts.forEach(post => {
+    forum.innerHTML += `
+      <li class="post-item" data-titulo="${post.titulo}">
+        <h3>${post.titulo}</h3>
+        <div class="meta">${post.autor} • ${new Date(post.data_postagem).toLocaleString()}</div>
+        <p class="conteudo">${post.conteudo}</p>
+      </li>
+    `;
+  });
+}
 
-
-
-    // Troca de tabs
+    // Troca de tabs mural e fórum e carrega os dados
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -142,80 +135,102 @@
         const tab = btn.getAttribute('data-tab');
         document.querySelectorAll('.conteudo-tab').forEach(c => c.style.display = 'none');
         document.getElementById(tab).style.display = 'block';
+        if (tab === 'mural') carregarMural();
+        if (tab === 'forum') carregarForum();
       });
     });
-/*
-    function carregarCards() {
-      const muralTab = document.getElementById('mural');
-      const muralGrid = muralTab.querySelector('.grid-mural');
-      muralGrid.innerHTML = ''; // Limpa os cards existentes
 
-      // Simulação de carregamento de cards
-      muralConteudo.forEach(card => {
-        const muralCards = document.createElement('div');
-        card.addEventListener('click', () => {
-          const titulo = card.getAttribute('data-titulo');
-          const src = card.querySelector('img').src;
-          const html = `<h3>${titulo}</h3><img src="${src}" style="width:100%; border-radius:8px;">`;
-          document.getElementById('modalBody').innerHTML = html;
-          document.getElementById('modal').classList.add('active');
+    // Carrega mural ao abrir a página
+    carregarMural();
+
+    // Nova postagem modal (mural de arte)
+    const btnNovaArte = document.getElementById('novaPostagemMural');
+    if (btnNovaArte) {
+      btnNovaArte.addEventListener('click', () => {
+        const form = `
+        <h3>Criar Nova Arte</h3>
+        <input type="text" id="artTitle" placeholder="Título da Arte" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+        <input type="file" id="artImage" placeholder="URL da Imagem" style="width:100%; padding:8px; margin-bottom:10px;"><br>
+        <textarea id="artDesc" rows="3" placeholder="Descrição..." style="width:100%; padding:8px;"></textarea><br>
+        <button id="salvarArte" style="padding:10px; margin-top:10px;">Salvar</button>
+      `;
+        document.getElementById('modalBody').innerHTML = form;
+        document.getElementById('modal').classList.add('active');
+        document.getElementById('salvarArte').addEventListener('click', async () => {
+          const titulo = document.getElementById('artTitle').value;
+          const descricao = document.getElementById('artDesc').value;
+          const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+          const fileInput = document.getElementById('artImage');
+          const imagem = fileInput.files[0];
+
+          if (!imagem) {
+            alert("Selecione uma imagem!");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('descricai', titulo);
+          formData.append('usuarioId', usuario.id);
+          formData.append('imagem', imagem);
+
+          await fetch('/posts/mural', {
+            method: 'POST',
+            body: formData
+          });
+
+          await carregarMural();
+          document.getElementById('fecharModal').click();
         });
       });
     }
-    try {
-      const response = await fetch("/mural/listar");
 
-    } catch (error) {
-      console.error("Erro ao carregar os cards:", error);
-    }
-
-    const muralTab = document.getElementById('mural');
-    const muralBtn = document.querySelector('.tab-btn[data-tab="mural"]');
-    const muralGrid = muralTab.querySelector('.grid-mural');
-
-
-*/
-
-
-    
-    // Modal de imagem
-    document.querySelectorAll('.card-imagem').forEach(card => {
-      card.addEventListener('click', () => {
-        const titulo = card.getAttribute('data-titulo');
-        const src = card.querySelector('img').src;
-        const html = `<h3>${titulo}</h3><img src="${src}" style="width:100%; border-radius:8px;">`;
-        document.getElementById('modalBody').innerHTML = html;
-        document.getElementById('modal').classList.add('active');
-      });
-    });
-
-    // Nova postagem modal
-    document.getElementById('novaPostagem').addEventListener('click', () => {
-      const form = `
+    // Nova postagem modal (fórum)
+    const btnNovaForum = document.getElementById('novaPostagemForum');
+    if (btnNovaForum) {
+      btnNovaForum.addEventListener('click', () => {
+        const form = `
         <h3>Criar Nova Postagem</h3>
         <input type="text" id="postTitle" placeholder="Título" style="width:100%; padding:8px; margin-bottom:10px;"><br>
         <textarea id="postContent" rows="5" placeholder="Conteúdo..." style="width:100%; padding:8px;"></textarea><br>
         <button id="salvarPost" style="padding:10px; margin-top:10px;">Salvar</button>
       `;
-      document.getElementById('modalBody').innerHTML = form;
-      document.getElementById('modal').classList.add('active');
-      document.getElementById('salvarPost').addEventListener('click', () => {
-        alert('Post salvo (simulação)!');
-        document.getElementById('fecharModal').click();
+        document.getElementById('modalBody').innerHTML = form;
+        document.getElementById('modal').classList.add('active');
+        document.getElementById('salvarPost').addEventListener('click', async () => {
+          const titulo = document.getElementById('postTitle').value;
+          const conteudo = document.getElementById('postContent').value;
+          const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+          await fetch('/posts/forum', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              tipo: 'forum',
+              titulo,
+              conteudo,
+              usuarioId: usuario.id
+            })
+          });
+          await carregarForum();
+          document.getElementById('fecharModal').click();
+        });
       });
-    });
+    }
 
     // Fechar modal
     document.getElementById('fecharModal').addEventListener('click', () => {
       document.getElementById('modal').classList.remove('active');
     });
 
-    // Filtro de busca simples (título)
+    // Filtro de busca simples (título) - só na tab ativa
     document.getElementById('busca').addEventListener('input', e => {
       const termo = e.target.value.toLowerCase();
-      document.querySelectorAll('.conteudo-tab:visible .post-item, .conteudo-tab:visible .card-imagem').forEach(item => {
-        const text = item.getAttribute('data-titulo').toLowerCase();
-        item.style.display = text.includes(termo) ? '' : 'none';
+      document.querySelectorAll('.conteudo-tab').forEach(tab => {
+        if (tab.style.display !== 'none') {
+          tab.querySelectorAll('.post-item, .card-imagem').forEach(item => {
+            const text = item.getAttribute('data-titulo').toLowerCase();
+            item.style.display = text.includes(termo) ? '' : 'none';
+          });
+        }
       });
     });
 
@@ -224,8 +239,6 @@
       // Aqui você implementa lógica de reordenar conforme critério
       console.log('Ordenar por:', e.target.value);
     });
-
-    
   </script>
 </body>
 
