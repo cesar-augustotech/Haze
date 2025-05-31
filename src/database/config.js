@@ -25,6 +25,7 @@ function executar(instrucao) {
                 reject(erro);
             }
             console.log('CONSULTA DEU CERTO');
+            console.log(resultados)
             resolve(resultados);
         });
         conexao.on('error', function (erro) {

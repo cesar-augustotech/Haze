@@ -28,12 +28,14 @@
       align-items: center;
       gap: 15px;
     }
+
     .perfil-header .avatar {
       width: 80px;
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
     }
+
     .perfil-header .nome-usuario {
       font-size: 1.5rem;
       color: #fff;
@@ -50,11 +52,13 @@
       align-items: center;
       gap: 10px;
     }
+
     .perfil-steam label {
       color: #aaa;
       font-size: .9rem;
       width: 80px;
     }
+
     .perfil-steam #steamDisplay {
       padding: 8px;
       background: #333;
@@ -62,7 +66,8 @@
       color: #fff;
       flex: 1;
     }
-    .perfil-steam #ipt_steamId {
+
+    .ipt_edit {
       display: none;
       padding: 8px;
       background: #333;
@@ -76,10 +81,12 @@
       display: flex;
       gap: 10px;
     }
+
     .perfil-buttons button {
       flex: 1;
       padding: 10px;
-      background: #00ccff;
+      background: rgb(251, 156, 163);
+      ;
       color: #111;
       border: none;
       border-radius: 50px;
@@ -87,12 +94,15 @@
       cursor: pointer;
       transition: background .2s;
     }
+
     .perfil-buttons button:disabled {
       opacity: .6;
       cursor: not-allowed;
     }
+
     .perfil-buttons button:hover:not(:disabled) {
-      background: #00a8cc;
+      background: rgb(251, 156, 163);
+      ;
     }
   </style>
 </head>
@@ -106,8 +116,7 @@
       <a href="comunidade.html">Comunidade</a>
       <a href="dashboard.html">Dashboard</a>
       <a class="nav-perfil" href="perfil.html">
-        <!-- substituído dinamicamente -->
-        Perfil
+
       </a>
     </nav>
   </header>
@@ -118,17 +127,17 @@
     <div class="card-perfil">
       <div class="perfil-header">
         <img id="avatar" src="https://via.placeholder.com/80" alt="Avatar" class="avatar">
-        <div class="nome-usuario" id="username">Binhozord</div>
+        <input type="file" id="artImage" placeholder="URL da Imagem" class="ipt_edit">
+        <div class="nome-usuario" id="username">Nada</div>
+        <input class="ipt_edit" id="ipt_nome" type="text" placeholder="Escolha seu novo apelido">
       </div>
 
-      <div class="perfil-bio" id="bio">
-        Apaixonado por jogos retro, pixel art e aventuras épicas. Sempre em busca de novos desafios!
-      </div>
-
+      <div class="perfil-bio" id="bio"> </div>
+      <input type='text' class="ipt_edit" id="ipt_bio" placeholder="Escreva sua nova bio">
       <div class="perfil-steam">
         <label for="ipt_steamId">Steam ID:</label>
         <span id="steamDisplay">—</span>
-        <input id="ipt_steamId" type="text" placeholder="Cole seu SteamID">
+        <input class="ipt_edit" id="ipt_steamId" type="text" placeholder="Cole seu SteamID">
       </div>
 
       <div class="perfil-buttons">
@@ -140,43 +149,44 @@
 
   <script>
     // Simulação de usuário logado e perfil próprio
-    
-    const isOwner = true; // trocar conforme sesssionStorage ou login real
 
-    const steamDisplay = document.getElementById('steamDisplay');
-    const steamInput   = document.getElementById('ipt_steamId');
-    const editBtn      = document.getElementById('editBtn');
-    const saveBtn      = document.getElementById('saveBtn');
+    let usuario = JSON.parse(sessionStorage.getItem('usuario'));
+    async function carregar() {
 
-    // Mostrar/ocultar botões baseado em ownership
-    if (!isOwner) {
-      steamInput.style.display = 'none';
-      editBtn.style.display   = 'none';
-      saveBtn.style.display   = 'none';
+      //Recarregar session storage do usuário
+      let dados = fetch("/usuarios/recarregar/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          idServer: 1
+        })
+      }
+      )
+      console.log( await dados.JSON)
+      usuario = await dados.JSON;
+      
     }
 
-    editBtn.addEventListener('click', () => {
-      
-      steamInput.value = steamDisplay.textContent === '—' ? '' : steamDisplay.textContent;
-      steamDisplay.style.display = 'none';
-      steamInput.style.display   = 'block';
-      saveBtn.disabled           = false;
-    });
+    carregar()
+    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+  
 
-    saveBtn.addEventListener('click', () => {
-      const newId = steamInput.value.trim();
-    
 
-      // Aqui você faria chamada ao seu backend para salvar o novo SteamID
-      // Exemplo (fetch):
-      // fetch('/api/usuario/steam', { method:'POST', body: JSON.stringify({ steamId: newId }) })
+    const isOwner = true; // trocar conforme sesssionStorage ou login real
 
-      // Após sucesso:
-      steamDisplay.textContent    = newId;
-      steamDisplay.style.display  = 'block';
-      steamInput.style.display    = 'none';
-      saveBtn.disabled            = true;
-    });
+    const avatarDisplay = document.getElementById('avatar');
+    const usernameDisplay = document.getElementById('username');
+    const bioInput = document.getElementById('ipt_bio');
+    const steamDisplay = document.getElementById('steamDisplay');
+    const bio = document.getElementById('bio');
+    const steamInput = document.getElementById('ipt_steamId');
+    const usernameInput = document.getElementById('ipt_nome');
+
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
 
     // Carregar usuário na nav
     try {
@@ -187,9 +197,51 @@
         document.getElementById('avatar').src = user.avatar_url;
         document.getElementById('username').textContent = user.username;
         document.getElementById('bio').textContent = user.bio || 'Sem bio definida.';
-        document.getElementById('steamDisplay').textContent = user.steamId || '—';  
+        document.getElementById('steamDisplay').textContent = user.steamId || '—';
       }
     } catch (e) { /* sem usuário */ }
+
+
+
+    // Mostrar/ocultar botões baseado em ownership
+    if (!isOwner) {
+      steamInput.style.display = 'none';
+      editBtn.style.display = 'none';
+      saveBtn.style.display = 'none';
+    }
+
+    editBtn.addEventListener('click', () => {
+
+      steamInput.value = steamDisplay.textContent === '—' ? '' : steamDisplay.textContent;
+      bioInput.value = bio.textContent === 'Sem bio definida.' ? '' : bio.textContent;
+      usernameInput.value = username.textContent
+      steamDisplay.style.display = 'none';
+      steamInput.style.display = 'block';
+      usernameInput.style.display = 'block';
+      bioInput.style.display = 'block';
+      saveBtn.disabled = false;
+    });
+
+    saveBtn.addEventListener('click', () => {
+      const newId = steamInput.value.trim();
+      // Aqui você faria chamada ao seu backend para salvar o novo SteamID
+      // Exemplo (fetch):
+      // fetch('/api/usuario/steam', { method:'POST', body: JSON.stringify({ steamId: newId }) })
+      // Após sucesso:
+      fetch('/usuarios/', {
+        method: 'POST',
+        body: JSON.stringify({
+          bioServer: bioInput,
+          userServer: usernameInput,
+          Server: usuario,
+          steamIdServer: steamInput
+        })
+      }
+      ).then(Window.reload)
+    });
+
+
+
   </script>
 </body>
 

@@ -37,7 +37,7 @@
     <div class="tab conteudo-tab" id="mural">
       <button class="novaPostagem" id="novaPostagemMural" style="margin-bottom:15px;">+ Nova Postagem</button>
       <div class="grid-mural" id="lista-mural">
-        <!-- Os cards do mural serão inseridos aqui via JS -->
+     
       </div>
     </div>
 
@@ -45,7 +45,7 @@
     <div class="tab conteudo-tab" id="forum" style="display:none;">
       <button class="novaPostagem" id="novaPostagemForum" style="margin-bottom:15px;">+ Nova Postagem</button>
       <ul class="lista-posts" id="lista-forum">
-        <!-- Os posts do fórum serão inseridos aqui via JS -->
+      
       </ul>
     </div>
   </div>
@@ -59,14 +59,14 @@
   </div>
 
   <script>
-    // Protege a página: só acessa se estiver logado
+  
     const usuarioStr = sessionStorage.getItem("usuario");
     if (!usuarioStr) {
       sessionStorage.setItem("avisoLogin", "Você precisa estar logado para acessar esta página.");
       window.location.href = "index.html#auth";
     }
 
-    // Exibe usuário logado no menu
+
     try {
       const usuario = JSON.parse(usuarioStr);
       if (usuario) {
@@ -84,8 +84,9 @@
       mural.innerHTML = '';
       posts.forEach(post => {
         mural.innerHTML += `
-        <div class="card-imagem" data-titulo="">
-          <img src="${post.imagem}" alt="${post.descricao}">
+        <div class="card-imagem" data-titulo="${post.descricao}">
+          <h3 style="width:100%; text-align:center">${post.descricao}</h3>
+          <img style="width:100%; " src="${post.imagem}" alt="${post.descricao}">
           <div class="info">
             <div><img src="${post.avatar || 'https://via.placeholder.com/32'}" class="avatar" alt=""></div>
             <div class="autor">${post.autor}</div>
@@ -149,16 +150,16 @@
       btnNovaArte.addEventListener('click', () => {
         const form = `
         <h3>Criar Nova Arte</h3>
-        <input type="text" id="artTitle" placeholder="Título da Arte" style="width:100%; padding:8px; margin-bottom:10px;"><br>
-        <input type="file" id="artImage" placeholder="URL da Imagem" style="width:100%; padding:8px; margin-bottom:10px;"><br>
-        <textarea id="artDesc" rows="3" placeholder="Descrição..." style="width:100%; padding:8px;"></textarea><br>
+        <input type="text" id="artTitle" placeholder="Título da Arte" class="filtros" style="width:100%; padding:8px;"><br>
+        <input type="file" id="artImage" placeholder="URL da Imagem" class="novaPostagem"><br>
+        
         <button id="salvarArte" style="padding:10px; margin-top:10px;">Salvar</button>
       `;
         document.getElementById('modalBody').innerHTML = form;
         document.getElementById('modal').classList.add('active');
         document.getElementById('salvarArte').addEventListener('click', async () => {
           const titulo = document.getElementById('artTitle').value;
-          const descricao = document.getElementById('artDesc').value;
+          
           const usuario = JSON.parse(sessionStorage.getItem("usuario"));
           const fileInput = document.getElementById('artImage');
           const imagem = fileInput.files[0];
@@ -169,7 +170,7 @@
           }
 
           const formData = new FormData();
-          formData.append('descricai', titulo);
+          formData.append('descricao', titulo);
           formData.append('usuarioId', usuario.id);
           formData.append('imagem', imagem);
 
@@ -190,9 +191,9 @@
       btnNovaForum.addEventListener('click', () => {
         const form = `
         <h3>Criar Nova Postagem</h3>
-        <input type="text" id="postTitle" placeholder="Título" style="width:100%; padding:8px; margin-bottom:10px;"><br>
-        <textarea id="postContent" rows="5" placeholder="Conteúdo..." style="width:100%; padding:8px;"></textarea><br>
-        <button id="salvarPost" style="padding:10px; margin-top:10px;">Salvar</button>
+        <input type="text" id="postTitle" placeholder="Título" class="filtros" style="border-radius:25px;width:75%; padding:8px 8px 0 8px;"><br>
+        <textarea id="postContent" rows="5" placeholder="Conteúdo..."  style="border-radius:25px; width:100%; aling-text:center" class="filtros"></textarea><br>
+        <button id="salvarPost" class="novaPostagem">Salvar</button>
       `;
         document.getElementById('modalBody').innerHTML = form;
         document.getElementById('modal').classList.add('active');

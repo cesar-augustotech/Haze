@@ -14,4 +14,12 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.post("/atualizar", function (req,res){
+    usuarioController.atualizar(req,res);
+})
+
+router.post("/recarregar", function(req,res){
+    usuarioController.recarregar(req,res);
+})
+
 module.exports = router;

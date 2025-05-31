@@ -15,7 +15,7 @@ function listarImagensMural(req, res) {
 function criarImagemMural(req, res) {
     const { descricao, usuarioId } = req.body;
     // multer salva o arquivo em req.file
-    const url_imagem = req.file ? `/assets/${req.file.filename}` : null;
+    const url_imagem = req.file ? `/assets//mural${req.file.filename}` : null;
 
     if (!url_imagem || !usuarioId) {
         return res.status(400).send("Campos obrigatórios faltando!");

@@ -6,13 +6,14 @@ USE haze;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL Unique,
+    bio     VARCHAR(300),
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     avatar_url TEXT,
-    steamId		VARCHAR(100) UNIQUE
+    steamId		VARCHAR(100) NULL
 );
 
-
+use haze;
 
 
 CREATE TABLE posts (
@@ -23,6 +24,7 @@ CREATE TABLE posts (
     data_postagem DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
 
 
 CREATE TABLE comentarios (
@@ -64,3 +66,6 @@ CREATE TABLE pontuacoes_jogo (
     data_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+use haze;
+select * from usuarios;
