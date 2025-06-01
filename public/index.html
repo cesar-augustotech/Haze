@@ -12,11 +12,14 @@
 
   <header>
     <div class="header-left">
-      <h2>Conheça o desenvolvimento de jogos</h2>
+      <h1 style="padding-right: 25px;">HAZE</h1>
+      <h2> Conheça o desenvolvimento de jogos</h2>
+
     </div>
 
     <div class="header-right">
-      <button class="jogar" onclick="jogar()">Começar</button>
+      <button class="jogar" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Sobre o
+        Projeto</button>
       <button class="jogar" onclick="window.location.href='comunidade.html'">Comunidade</button>
 
     </div>
@@ -57,44 +60,352 @@
     <!-- Sobre o Projeto -->
     <section class="sobre" id="sobre">
       <span class="sobre-title">Porquê sobre desenvolvimento de jogos</span>
-      <p style="color: rgb(136, 138, 135);">Eu gosto de jogos e gosto de criar jogos</p>
+      <p style="color: rgb(136, 138, 135);">Impacto cultural, econômico e pessoal dos jogos – e por que isso importa
+        para mim.</p>
 
-      <div class="blocos">
+      
+      <div class="blocos" id="blocos-1">
         <div class="blocos-item">
-          <h3>Origem</h3>
-          <p>Desde pequeno, os jogos marcaram momentos importantes da minha vida...</p>
+          <!-- Resumo curto -->
+          <h3>Impacto Econômico e Cultural dos Jogos</h3>
+          <br>
+          <p>
+            A indústria de games movimenta mais de 180 bilhões de dólares por ano, superando cinema e música.
+            Além disso, atravessa fronteiras culturais, gerando tendências que vão da moda à música.
+            No Brasil, indies como <em>Horizon Chase Turbo</em> e <em>Dandara</em> provam que estúdios nacionais
+            competem globalmente.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
           <div class="mais-texto">
-            <h4>Origem – Detalhes</h4>
+            <h4><b>Peso Econômico</b></h4>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula metus nec elit bibendum,
-              vitae pharetra velit tincidunt. Suspendisse potenti. Integer et lorem sed sem commodo condimentum. Fusce
-              accumsan lectus at est efficitur...
+              Em 2024, o faturamento global de games ultrapassou 180 bilhões de dólares, ficando à
+              frente das indústrias cinematográfica e fonográfica. Grandes estúdios (AAA) concentram parte desse
+              mercado, mas plataformas digitais como Steam e Epic Games Store também permitem que pequenos estúdios
+              independentes alcancem milhões de jogadores sem precisar de editoras tradicionais.
             </p>
-            <!-- aqui pode adicionar mais parágrafos, listas, imagens etc -->
+            <h4><b>Audiência e Comunidades</b></h4>
+            <p>
+              Jogos populares criam subculturas dedicadas: e-sports movimentam milhões em
+              premiações (ex.: torneios de <em>League of Legends</em> e <em>Dota 2</em>), enquanto streamers (no Twitch
+              e YouTube) atraem audiências enormes, gerando patrocínios e parcerias. Esse ecossistema cultiva interações
+              que moldam a cultura pop, influenciando música, moda e debates sociais em níveis globais.
+            </p>
+            <h4><b>Cenário Brasileiro</b></h4>
+            <p>
+              Títulos como <em>Horizon Chase Turbo</em> (Aquiris Game Studio) e <em>Dandara</em>
+              (Long Hat House) mostram a força criativa de desenvolvedores nacionais. Esses jogos receberam prêmios
+              internacionais e provaram que estúdios brasileiros podem competir em qualidade, inspirando outras equipes
+              a criarem experiências próprias. Eventos como a Brazil Game Show reúnem milhares de desenvolvedores,
+              empresas e entusiastas, fomentando networking e acelerando o crescimento do setor no país.
+            </p>
           </div>
         </div>
         <div class="blocos-item">
-          <h3>Conexão Pessoal</h3>
-          <p>Aprender a criar jogos me fez entender como arte, código e emoção se encontram.</p>
+          <!-- Resumo curto -->
+          <h3>Jogos como Ferramenta de Autodescoberta</h3>
+          <br>
+          <p>
+            Criar ou jogar games pode gerar estados de “flow” que ajudam a aliviar o estresse e aprimorar foco e
+            criatividade.
+            Montar um protótipo simples ensina colaboração e resolução de problemas.
+            Narrativas em títulos como <em>Celeste</em> convidam a reflexões sobre ansiedade e empatia.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
           <div class="mais-texto">
-            <h4>Conexão Pessoal – Detalhes</h4>
+            <h4><b>Fluxo e Engajamento Emocional</b></h4>
             <p>
-              Descreva aqui como os jogos influenciaram sua vida, exemplos de momentos marcantes, ...
+              Segundo Mihaly Csikszentmihalyi, o “flow” ocorre quando pessoa e
+              atividade se fundem em foco absoluto. Em jogos, esse estado reduz o estresse, pois o cérebro se concentra
+              em desafios claros (objetivos e feedback imediato). Com isso, muitos jogadores relatam sensação de
+              bem-estar e motivação para aplicar o mesmo foco em tarefas reais.
+            </p>
+            <h4><b>Descoberta de Habilidades</b></h4>
+            <p>
+              Ferramentas como Scratch, Construct ou GameMaker permitem que qualquer
+              iniciante construa um protótipo em poucas horas. Ao experimentar, o indivíduo descobre aptidões em
+              programação, design gráfico ou narrativa. Essa primeira experiência em criação de jogos costuma ser
+              motivadora: ver algo “funcionando” dá confiança para aprofundar estudos em computação ou artes.
+            </p>
+            <p>
+            <h4><b>Narrativa e Reflexão Pessoal</b></h4>
+            Jogos com narrativas potentes (por ex., <em>Life Is Strange</em>,
+            <em>Undertale</em>) colocam o jogador diante de escolhas morais e dilemas emocionais. Ao vivenciar essas
+            histórias, ocorre uma identificação com personagens, gerando insights sobre a própria vida. Quem já jogou
+            <em>Celeste</em> costuma mencionar como o tema da superação de ansiedade se reflete nos desafios do game,
+            criando empatia e autoconhecimento.
+            </p>
+            <h4><b>Colaboração e Comunidade</b></h4>
+            <p>
+              Em títulos multiplayer (ex.: <em>Minecraft</em>, <em>League of
+                Legends</em>), o trabalho em equipe desenvolve comunicação e empatia. Eventos de game jam estimulam
+              equipes pequenas a criar protótipos em tempo limitado, reforçando a importância de planejar, dividir
+              tarefas e inovar sob pressão — habilidades valiosas em qualquer carreira.
             </p>
           </div>
         </div>
         <div class="blocos-item">
-          <h3>O que você verá aqui</h3>
-          <p>Um mundo interativo que coleta suas experiências e mostra o que nos une nesse universo.</p>
+          <!-- Resumo curto -->
+          <h3>Jogos Digitais como Arte e Expressão</h3>
+          <br>
+          <p>
+            Títulos como <em>Journey</em> e <em>Gris</em> provam que games são obras de arte interativas, unindo
+            estética, som e mecânica para transmitir emoções;
+            experiências procedurais (ex.: <em>No Man’s Sky</em>) exploram paisagens geradas por algoritmos
+            e indies como <em>Papers, Please</em> usam gameplay para criticar contextos sociais.
+          </p>
+
+          <!-- Conteúdo expandido -->
           <div class="mais-texto">
-            <h4>O que você verá aqui – Detalhes</h4>
+            <h4><b>Arte Interativa</b></h4>
             <p>
-              Explique as funcionalidades previstas, fluxo de navegação, interação com usuário, ...
+              Jogos como <em>Journey</em> (Thatgamecompany) utilizam direção de arte minimalista e
+              trilha sonora envolvente para criar experiências poéticas que ultrapassam o entretenimento. Em
+              <em>Gris</em>, a paleta de cores aquareladas e transições suaves simbolizam a jornada emocional da
+              protagonista, fazendo do game uma espécie de “pintura animada”.
+            </p>
+            <h4><b>Processos Procedurais</b></h4>
+            <p>
+              Títulos como <em>No Man’s Sky</em> e <em>Spelunky</em> aplicam algoritmos de
+              geração procedural para criar mundos e cenários únicos a cada partida. Isso cria uma interseção entre
+              código e arte: o próprio algoritmo se torna parte do processo criativo, desafiando a ideia de autoria
+              estática.
+            </p>
+            <h4><b>Narrativa e Música</b></h4>
+            <p>
+              A trilha sonora em jogos também exerce um papel narrativo. Por exemplo, em <em>Undertale</em>, as
+              excelentes
+              composições mudam conforme as escolhas do jogador, reforçando emoções específicas. Em RPGs e aventuras, o
+              som ambiente e as faixas temáticas criam tensão ou conforto, elevando o impacto emocional das cenas.
+            </p>
+            <h4><b>Crítica Social e Expressão Autobiográfica</b></h4>
+            <p>
+              Desenvolvedores independentes frequentemente abordam temas
+              pessoais ou sociais. Em <em>Papers, Please</em>, o jogador assume o papel de um inspetor de imigração em
+              regime ditatorial, colocando-o diante de dilemas morais. Jogos como <em>Celeste</em> refletem experiências
+              de superação pessoal de seus criadores, contribuindo para discussões sobre saúde mental.
+            </p>
+            <h4><b>Reconhecimento Artístico</b></h4>
+            <p>
+              Festivais como o Independent Games Festival (IGF) premiam títulos que se
+              destacam em narrativa, direção de arte e inovação. Museus de arte contemporânea, como o MOMA em Nova York,
+              já incluíram jogos digitais em exposições, reconhecendo-os como obras de design e expressão cultural.
             </p>
           </div>
         </div>
+
       </div>
 
+      <div class="blocos desativado" id="blocos-2">
+        <div class="blocos-item">
+          <!-- Resumo curto -->
+          <h3>Importância dos Jogos na Minha Vida</h3>
+          <br>
+          <p>
+            Desde criança, os jogos me ensinaram a pensar estrategicamente e a resolver problemas de forma criativa.
+            Eles me ofereceram momentos de diversão que serviram de refúgio em fases difíceis.
+            Foi jogando que descobri meu interesse por tecnologia e computação.
+          </p>
+          <!-- Conteúdo expandido -->
+          <div class="mais-texto">
+
+            <p>
+            <h4><b>Primeiros Contatos</b></h4> Me lembro de passar horas no antigo Game Boy, explorando mundos em 8
+            bits. Esses
+            momentos me ensinaram a ter paciência para superar obstáculos e a valorizar cada pequena conquista.
+            <h4><b>Refúgio Emocional</b></h4> Em fases de ansiedade na adolescência, jogar títulos de aventura e
+            plataforma me
+            ajudou a relaxar e a canalizar energias de forma positiva.
+            <h4><b>Porta para a Tecnologia</b></h4> Foi ao tentar modificar um save de <em>Pokémon</em> que descobri
+            como
+            funcionava a parte técnica dos jogos, o que me motivou a estudar lógica de programação e, depois, Ciência
+            da Computação na faculdade.
+            </p>
+            <p>
+            <h4><b>Aprendizado Contínuo</b></h4> Cada novo jogo apresentava um desafio — seja dominar uma combo em um
+            jogo de
+            luta ou planejar rotas em um simulador de estratégia —, e isso estimulou minha vontade de aprender a
+            construir meus próprios protótipos.
+            <h4><b>Conexões Sociais</b></h4> As partidas online com amigos criaram laços que se mantêm até hoje,
+            mostrando como a
+            interação em games pode fortalecer amizades e ensinar cooperação.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="blocos-item">
+          <!-- Resumo curto -->
+          <h3>Valores que os Jogos Me Trouxeram</h3>
+          <br>
+          <p>
+            Jogar me ensinou persistência: cada falha virou motivação para tentar de novo.
+            Aprendi a pensar em equipe ao participar de partidas multiplayer.
+            A criatividade surgiu ao enfrentar puzzles e desafios inéditos.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
+          <div class="mais-texto">
+
+            <p>
+            <h4><b>Persistência</b></h4> Em jogos como <em>Dark Souls</em> ou <em>Celeste</em>, repetir fases várias
+            vezes faz
+            parte do aprendizado. Cada derrota me motivava a refinar estratégias e técnicas, aplicando a mesma
+            mentalidade de “tentar de novo” em projetos acadêmicos e pessoais.
+            <h4><b>Trabalho em Equipe</b></h4> Em títulos multiplayer cooperativos, como <em>Overwatch</em> ou
+            <em>Minecraft</em>, precisei coordenar ações com outros jogadores para vencer desafios. Isso me ajudou a
+            desenvolver comunicação clara e a confiar na colaboração, habilidades que uso em projetos de grupo na
+            faculdade.
+            </p>
+            <p>
+            <h4><b>Criatividade</b></h4> Enfrentar puzzles ou criar níveis no modo sandbox estimulou minha imaginação.
+            Em
+            <em>Mario Maker</em> e em editores de game engine, aprendi a pensar em jogabilidade, design e fluidez.
+            Essa visão criativa me inspira tanto na arte pixel quanto na programação de protótipos.
+            </p>
+            <p>
+            <h4><b>Resiliência Emocional</b></h4> A frustração inicial, seguida da satisfação ao conquistar um objetivo
+            difícil
+            dentro do jogo, refletiu‐se em minha vida pessoal. Esse ciclo de tentar, falhar, adaptar e vencer serviu
+            de lição para lidar melhor com prazos, revisões de código e exigências acadêmicas.
+            </p>
+          </div>
+        </div>
+
+        <div class="blocos-item">
+          <!-- Resumo curto -->
+          <h3>Desafios para Concluir Este Projeto</h3>
+          <br>
+          <p>
+            Aprender HTML, CSS e JavaScript do zero demandou horas de estudo autodidata.
+            Conciliar este site com o projeto UMIDO e as tarefas da faculdade foi complicado.
+            Encontrar referências confiáveis sobre desenvolvimento de jogos exigiu pesquisa intensa.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
+          <div class="mais-texto">
+
+            <p>
+            <h4><b>Falta de Experiência em Web</b></h4> Antes de começar, eu tinha pouca familiaridade com HTML e CSS.
+            Passei
+            semanas fazendo tutoriais sobre layout responsivo e grids, refazendo exemplos até me sentir confortável
+            para criar esta página do zero.
+            <h4><b>Gestão de Tempo</b></h4> Em paralelo a este site, participei do projeto UMIDO e ainda tinha provas e
+            trabalhos
+            da faculdade. Foi um exercício de priorização: criei um cronograma semanal em que dedicava algumas horas à
+            noite para o site, intercalando com leituras e tarefas acadêmicas.
+            </p>
+            <p>
+            <h4><b>Busca de Fontes Confiáveis</b></h4> Muitos artigos sobre desenvolvimento de jogos são avançados ou em
+            inglês.
+            Investi tempo para encontrar conteúdos em português e vídeos de instrutores brasileiros, mas também
+            precisei ler artigos acadêmicos e assistir palestras de conferências internacionais para ter embasamento
+            sólido.
+            </p>
+            <p>
+            <h4><b>Problemas Técnicos</b></h4> Configurar o ambiente local, manipular imagens, ajustar o canvas do
+            minijogo e
+            integrar o login/cadastro exigiu compreensão de conceitos novos (APIs REST, canvas 2D, roteamento). Cada
+            pequeno erro de sintaxe consumiu tempo até aprender a identificar e corrigir bugs rapidamente.
+            </p>
+          </div>
+        </div>
+
+        <div class="blocos-item">
+          <!-- Resumo curto -->
+          <h3>Superações Durante o Processo</h3>
+          <br>
+          <p>
+            Completei um mini-curso intensivo de HTML/CSS em duas semanas para ganhar base prática.
+            Organizei minhas tarefas com um planner diário, cumprindo metas semanais.
+            Pedi feedback contínuo a colegas e professores, ajustando conteúdos e layout.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
+          <div class="mais-texto">
+
+            <p>
+            <h4><b>Mini-Curso de HTML/CSS</b></h4> Inscrevi-me em um curso online focado em boas práticas de marcação
+            semântica e
+            responsividade. Em uma semana, aprendi conceitos de flexbox e grid, e na segunda criei protótipos de
+            páginas antes de fazê-los neste projeto.
+            <h4><b>Planejamento Estruturado</b></h4> Dividi o projeto em tarefas diárias – design de layout, escrita de
+            conteúdo,
+            codificação de elementos interativos. Usei um planner físico e um app de to-do list para acompanhar meu
+            progresso, garantindo que nenhuma etapa fosse deixada de lado.
+            </p>
+            <p>
+            <h4><b>Feedback Constante</b></h4> Compartilhei rascunhos de texto com colegas da disciplina de
+            Socioemocional e
+            recebi sugestões sobre clareza e coerência. Também apresentei versões iniciais do site ao professor,
+            ajustando cores, fontes e espaçamento conforme orientação.
+            <h4><b>Aprimoramento Contínuo</b></h4> Cada crítica recebida foi usada para melhorar. Por exemplo, ao
+            descobrir que o
+            texto ficava denso demais, aprendi a dividir parágrafos e usar listas para facilitar a leitura.
+            </p>
+            <p>
+            <h4><b>Aprendizado Automotivado</b></h4> Ao encarar erros de JavaScript e CSS, recorri à documentação
+            oficial (MDN
+            Web Docs) e fóruns como Stack Overflow. Essa busca ativa fortaleceu minha habilidade de solução de
+            problemas e autorregulação no aprendizado.
+            </p>
+          </div>
+        </div>
+
+        <div class="blocos-item">
+          <!-- Resumo curto -->
+          <h3>Agradecimentos</h3>
+          <br>
+          <p>
+            Agradeço ao Prof. Silva pelas orientações de conteúdo e revisão de texto.
+            Obrigado aos colegas Pedro e Ana pelo feedback no layout e escolhas de cores.
+            Sou grato à minha família pelo apoio incondicional e incentivo diário.
+          </p>
+
+
+          <!-- Conteúdo expandido -->
+          <div class="mais-texto">
+
+            <p>
+            <h4><b>Prof. João Silva</b></h4> Sua orientação na disciplina de Socioemocional foi fundamental para
+            entender como
+            relacionar minhas experiências pessoais ao tema de jogos. Obrigado pelas revisões detalhadas de escrita e
+            pelas sugestões de exemplos mais contextualizados.
+            <h4><b>Colegas de Turma</b></h4> Pedro me ajudou a depurar problemas de CSS e sugeriu usar cores
+            contrastantes para
+            acessibilidade. Ana opinou sobre a hierarquia tipográfica e a estrutura dos cards, o que melhorou bastante
+            a clareza visual do site.
+            </p>
+            <p>
+            <h4><b>Família e Amigos</b></h4> Minha família me incentivou a seguir meus interesses desde a infância,
+            mesmo quando
+            escolhi estudar Ciência da Computação. Agradeço pelos dias em que precisei dedicar horas extras ao
+            projeto, e vocês entenderam cada sacrifício. Meus amigos sempre testaram versões do site e deram feedbacks
+            honestos sobre usabilidade e conteúdo.
+            </p>
+            <p>
+            <h4><b>Fontes e Referências</b></h4> Agradeço aos criadores de conteúdo, canais de YouTube e blogs
+            especializados em
+            game dev (ex.: Canal “Game Dev Brasil” e blog “Jogos e Codificação”), cujos tutoriais me auxiliaram a
+            entender desde conceitos básicos até técnicas avançadas de design de interface.
+            </p>
+          </div>
+        </div>
+
+
+      </div>
+<div class="carrossel-setas">
+        <button class="seta seta-esquerda" onclick="trocarBloco(-1)" >&#8592;</button>
+        <span id="carrossel-titulo">Desenvolvimento de jogos</span>
+        <button class="seta seta-direita" onclick="trocarBloco(1)">&#8594;</button>
+      </div>
 
 
     </section>
@@ -140,7 +451,7 @@
 
         </div>
 
-        
+
     </section>
 
 
@@ -181,7 +492,42 @@
 
 
   <script>
-    
+
+    // Carrossel de blocos
+let blocoAtual = 0;
+const blocos = [
+  { id: "blocos-1", titulo: "Desenvolvimento de jogos" },
+  { id: "blocos-2", titulo: "Competências Socioemocionais" }
+];
+
+function trocarBloco(direcao) {
+  const anterior = blocoAtual;
+  blocoAtual = (blocoAtual + direcao + blocos.length) % blocos.length;
+
+  const blocoAnt = document.getElementById(blocos[anterior].id);
+  const blocoNovo = document.getElementById(blocos[blocoAtual].id);
+
+  blocoAnt.classList.add("saindo");
+  setTimeout(() => {
+    blocoAnt.classList.add("desativado");
+    blocoAnt.classList.remove("saindo");
+    blocoNovo.classList.remove("desativado");
+    blocoNovo.classList.add("entrando");
+    document.getElementById("carrossel-titulo").textContent = blocos[blocoAtual].titulo;
+    setTimeout(() => blocoNovo.classList.remove("entrando"), 10);
+  }, 400);
+}
+
+// Inicialização: mostra só o primeiro bloco
+window.addEventListener("DOMContentLoaded", () => {
+  blocos.forEach((b, i) => {
+    const el = document.getElementById(b.id);
+    if (i !== blocoAtual) el.classList.add("desativado");
+    else el.classList.remove("desativado");
+  });
+  document.getElementById("carrossel-titulo").textContent = blocos[blocoAtual].titulo;
+});
+
     //Função para exibir alerta login/cadastro
     function mostrarMensagem(texto, corFundo = "#222", loading = false) {
       const div = document.getElementById("mensagem-alerta");
@@ -244,7 +590,7 @@
       sessionStorage.setItem("usuario", JSON.stringify(usuario));
       mostrarMensagem("Login realizado com sucesso! Redirecionando", "#27ae60", true);
       await delay(1500);
-      mostrarMensagem("Seja Bem-Vindo(a)!", "#27ae60");
+      mostrarMensagem(`Seja Bem-Vindo(a), ${usuario.username}!`, "#27ae60");
       await delay(1000);
       window.location.href = "/comunidade.html";
     }

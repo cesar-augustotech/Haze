@@ -17,7 +17,7 @@ function listarImagensMural() {
         JOIN usuarios AS u ON m.usuario_id = u.id
         LEFT JOIN avaliacoes_imagens AS av ON av.imagem_id = m.id
         GROUP BY m.id, m.url_imagem, m.descricao, m.data_envio, u.username, u.avatar_url
-        ORDER BY m.data_envio DESC;
+        ORDER BY media_avaliacao DESC;
     `;
     return database.executar(instrucaoSql);
 }

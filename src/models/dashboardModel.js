@@ -8,7 +8,7 @@ function usuariosAtivos() {
         LEFT JOIN posts p ON u.id = p.usuario_id
         GROUP BY u.id
         ORDER BY total_posts DESC
-        LIMIT 5;
+        LIMIT 10;
     `;
     return database.executar(instrucaoSql);
 }
@@ -23,7 +23,7 @@ function topImagens() {
         LEFT JOIN avaliacoes_imagens av ON av.imagem_id = m.id
         GROUP BY m.id
         ORDER BY media_avaliacao DESC
-        LIMIT 5;
+        LIMIT 1;
     `;
     return database.executar(instrucaoSql);
 }

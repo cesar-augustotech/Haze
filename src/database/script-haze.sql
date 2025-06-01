@@ -13,9 +13,6 @@ CREATE TABLE usuarios (
     steamId VARCHAR(100) NULL
 );
 
-use haze;
-
-
 CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -24,8 +21,6 @@ CREATE TABLE posts (
     data_postagem DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-
-
 
 CREATE TABLE comentarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -67,8 +62,11 @@ CREATE TABLE pontuacoes_jogo (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-use haze;
 
+DROP USER IF EXISTS haze;
+CREATE USER haze IDENTIFIED BY 'Sptech#2024';
+GRANT ALL PRIVILEGES ON haze.* TO haze;
+FLUSH PRIVILEGES;
 
 select * from usuarios;
 

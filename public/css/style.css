@@ -79,7 +79,8 @@ header {
   text-align: center;
   padding-bottom: 50px;
   gap:20px;
-  text-shadow: 5px 5px 5px rgb(0, 0, 0);
+  text-shadow: 3px 3px  rgb(0, 0, 0);
+  
 
 }
 
@@ -137,8 +138,8 @@ display: flex;
   padding-left:10vw;
   gap:10px;
   font-size: 20px;
-  height: 100vh;
-  background-image: url("../assets/sobre-info.svg");
+  min-height: 100vh;
+ 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -234,9 +235,51 @@ display: flex;
 }
 
 
-
-
-
+.carrossel-setas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 18px;
+  font-size: 1.3rem;
+  color: rgb(251,156,163);
+  font-weight: bold;
+}
+.seta {
+  background: rgb(251,156,163);
+  color: #111;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seta:hover {
+  background: #e74c3c;
+  color: #fff;
+  transform: scale(1.08);
+}
+.blocos {
+  opacity: 1;
+  transition: opacity 0.5s;
+  will-change: opacity;
+}
+.blocos.saindo {
+  opacity: 0;
+  pointer-events: none;
+}
+.blocos.entrando {
+  opacity: 1;
+}
+.desativado {
+  display: none !important;
+}
 
 
 
