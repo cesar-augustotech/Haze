@@ -30,8 +30,22 @@ function recarregar(id){
     return database.executar(instrucaoSql);
 }
 
+function atualizar(id, nome, bio, steamId, avatar_url) {
+    console.log("ACESSEI O USUARIO MODEL\n\n function atualizar():", id, nome, bio, steamId, avatar_url);
+
+    let instrucaoSql = `
+        UPDATE usuarios 
+        SET username = '${nome}', bio = '${bio}', steamId = '${steamId}'
+        ${avatar_url ? `, avatar_url = '${avatar_url}'` : ''}
+        WHERE id = '${id}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrar,
-    recarregar
+    recarregar,
+    atualizar
 };

@@ -5,12 +5,12 @@ USE haze;
 
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL Unique,
-    bio     VARCHAR(300),
+    username VARCHAR(100) NOT NULL UNIQUE,
+    bio VARCHAR(300),
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    avatar_url TEXT,
-    steamId		VARCHAR(100) NULL
+    avatar_url VARCHAR(255) DEFAULT '/assets/pfp/default.png',
+    steamId VARCHAR(100) NULL
 );
 
 use haze;
@@ -68,4 +68,7 @@ CREATE TABLE pontuacoes_jogo (
 );
 
 use haze;
+
+
 select * from usuarios;
+

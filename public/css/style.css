@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 * {
   margin: 0;
   padding: 0;
@@ -49,6 +56,10 @@ header {
   height: 100vh;
   /* Alterar background para imagem relevante com jogos depois*/
   background-color: rgb(92, 82, 80);
+  background-image: url('../assets/banner.jpg');
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
   position: sticky;
   justify-content: center;
   gap: 20px;
@@ -56,7 +67,8 @@ header {
 }
 
 .banner-content {
-  color: white;
+  font-family: "Anton", sans-serif;
+  color: rgb(255, 255, 255);
   width: 50%;
   height: 50%;
   font-size: 3rem;
@@ -67,7 +79,7 @@ header {
   text-align: center;
   padding-bottom: 50px;
   gap:20px;
-  text-shadow: 2px 2px 2px rgb(150, 140, 140);
+  text-shadow: 5px 5px 5px rgb(0, 0, 0);
 
 }
 
@@ -126,6 +138,10 @@ display: flex;
   gap:10px;
   font-size: 20px;
   height: 100vh;
+  background-image: url("../assets/sobre-info.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
 }
 
@@ -144,6 +160,7 @@ display: flex;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  
   
 }
 
@@ -184,21 +201,20 @@ display: flex;
   max-height: 70vh;;
 }
 
-/* Ao passar o mouse, expande o bloco e revela o texto extra */
 .blocos-item:hover {
-         /* ocupa 80% da largura da tela */
-  height: 70vh;      /* ocupa 80% da altura da tela */
-  z-index: 10;       /* fica acima dos demais */
+  
+  height: 70vh;     
+  z-index: 10;    
   box-shadow: 10px 10px 20px rgba(0,0,0,0.4);
-  transform: translate(0, -15vh)
+  transform: translate(0, -10vh)
 }
 
-/* mostra o conteúdo extra dentro */
+
 .blocos-item:hover .mais-texto {
   opacity: 1;
 }
 
-/* Opcional: esconder o título/resumo quando expandido */
+
 .blocos-item:hover > h3,
 .blocos-item:hover > p {
   opacity: 0;
@@ -224,7 +240,6 @@ display: flex;
 
 
 
-/* style.css */
 
 .auth {
   flex-direction: column;
@@ -287,7 +302,7 @@ display: flex;
   border-radius: 10px;
 }
 
-/* Adicione ao final do seu style.css */
+
 .auth #iframeComunidade {
   padding: 0 40px 0 20px;
   position: absolute;
@@ -298,7 +313,7 @@ display: flex;
   border: none;
   z-index: 10;
   background: #181818;
-  display: none; /* Mostre com JS quando necessário */
+  display: none;
 }
 
 .loading-div {

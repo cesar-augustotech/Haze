@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - HAZE</title>
-<link rel="stylesheet" href="./css/dashboard.css">
+  <link rel="stylesheet" href="./css/dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-   <header>
+  <header>
     <a href="index.html">
       <div class="logo">HAZE</div>
     </a>
@@ -24,50 +24,31 @@
       <!-- Card: Usuários Mais Ativos -->
       <div class="card">
         <h2>👤 Usuários Mais Ativos</h2>
-        <ul class="ranking">
-          <li>🔥 Alice (12 posts)</li>
-          <li>🔥 Bruno (10 posts)</li>
-          <li>🔥 Carol (9 posts)</li>
-        </ul>
+        <ul class="ranking" id="usuariosAtivos"></ul>
       </div>
 
       <!-- Card: Top Imagens -->
       <div class="card">
         <h2>🖼️ Top Imagens do Mural</h2>
-        <img class="imagem-thumb" src="https://via.placeholder.com/300x150" alt="Arte 1">
-        <p class="stats">⭐️⭐️⭐️⭐️☆ (4.2)</p>
-        <img class="imagem-thumb" src="https://via.placeholder.com/300x150" alt="Arte 2">
-        <p class="stats">⭐️⭐️⭐️⭐️⭐️ (5.0)</p>
+        <div id="topImagens"></div>
       </div>
 
       <!-- Card: Ranking do Minigame -->
       <div class="card">
         <h2>🏅 Ranking do Minigame</h2>
-        <ul class="ranking">
-          <li>🎯 Diego - 850 pts</li>
-          <li>🎯 Fernanda - 800 pts</li>
-          <li>🎯 João - 790 pts</li>
-        </ul>
+        <ul class="ranking" id="rankingMinigame"></ul>
       </div>
 
       <!-- Card: Atividade Recente -->
       <div class="card">
         <h2>📅 Atividade Recente</h2>
-        <ul class="ranking">
-          <li>📝 Novo post de Alice</li>
-          <li>📸 Imagem enviada por Carol</li>
-          <li>💬 Comentário de Bruno</li>
-        </ul>
+        <ul class="ranking" id="atividadeRecente"></ul>
       </div>
 
       <!-- Card: Estatísticas Gerais -->
       <div class="card">
         <h2>📊 Estatísticas Gerais</h2>
-        <div class="stats">
-          <p>Total de usuários: 28</p>
-          <p>Imagens postadas: 63</p>
-          <p>Média geral das notas: ⭐️ 4.3</p>
-        </div>
+        <div class="stats" id="estatisticasGerais"></div>
       </div>
 
       <!-- Chart: Postagens por Usuário -->
@@ -92,8 +73,9 @@
   </div>
 
   <script>
-const usuarioStr = sessionStorage.getItem("usuario");
-      try {
+    // Perfil na nav
+    const usuarioStr = sessionStorage.getItem("usuario");
+    try {
       const usuario = JSON.parse(usuarioStr);
       if (usuario) {
         document.querySelector(".nav-perfil").innerHTML = `${usuario.username} <img class="pfp" src="${usuario.avatar_url || 'https://via.placeholder.com/32'}" alt="Foto de perfil"> `;
@@ -102,35 +84,122 @@ const usuarioStr = sessionStorage.getItem("usuario");
       console.error("Erro ao carregar o usuário:", error);
     }
 
-    // Gráfico de barras - Postagens
-    const postsCtx = document.getElementById('chartPosts').getContext('2d');
-    new Chart(postsCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Alice','Bruno','Carol','Diego','Fernanda'],
-        datasets: [{ label:'Posts', data:[12,10,9,7,6] }]
-      },
-      options: { scales:{ y:{ beginAtZero:true } } }
-    });
+    // Usuários mais ativos
+    async function carregarUsuariosAtivos() {
+      const resp = await fetch('/dashboards/usuarios-ativos');
+      const usuarios = await resp.json();
+      const ul = document.getElementById('usuariosAtivos');
+      ul.innerHTML = '';
+      usuarios.forEach(u => {
+        ul.innerHTML += `<li>🔥 ${u.username} (${u.total_posts} posts)</li>`;
+      });
+    }
 
-    // Gráfico de pizza - Avaliações
-    const avalCtx = document.getElementById('chartAvaliacoes').getContext('2d');
-    new Chart(avalCtx, {
-      type: 'pie',
-      data: {
-        labels:['5⭐','4⭐','3⭐','2⭐','1⭐'], datasets:[{ data:[25,15,8,3,1] }]
-      }
-    });
+    // Top imagens do mural
+    async function carregarTopImagens() {
+      const resp = await fetch('/dashboards/top-imagens');
+      const imagens = await resp.json();
+      const div = document.getElementById('topImagens');
+      div.innerHTML = '';
+      imagens.forEach(img => {
+        div.innerHTML += `
+          <img class="imagem-thumb" src="${img.url_imagem}" alt="${img.descricao}">
+          <p class="stats">⭐️ ${img.media_avaliacao || '—'} (${img.descricao})</p>
+        `;
+      });
+    }
 
-    // Gráfico de linha - Pontuações
-    const pontCtx = document.getElementById('chartPontuacoes').getContext('2d');
-    new Chart(pontCtx, {
-      type: 'line',
-      data: {
-        labels:['01/05','03/05','05/05','07/05','09/05'], datasets:[{ label:'Média', data:[600,700,750,720,800], fill:false, tension:0.2 }]
-      },
-      options:{ scales:{ y:{ beginAtZero:true } } }
-    });
+    // Ranking do minigame
+    async function carregarRankingMinigame() {
+      const resp = await fetch('/dashboards/ranking-minigame');
+      const ranking = await resp.json();
+      const ul = document.getElementById('rankingMinigame');
+      ul.innerHTML = '';
+      ranking.forEach(r => {
+        ul.innerHTML += `<li>🎯 ${r.username} - ${r.pontuacao} pts</li>`;
+      });
+    }
+
+    // Atividade recente
+    async function carregarAtividadeRecente() {
+      const resp = await fetch('/dashboards/atividade-recente');
+      const atividades = await resp.json();
+      const ul = document.getElementById('atividadeRecente');
+      ul.innerHTML = '';
+      atividades.forEach(a => {
+        let icone = '📝';
+        if (a.tipo === 'imagem') icone = '📸';
+        if (a.tipo === 'comentario') icone = '💬';
+        ul.innerHTML += `<li>${icone} ${a.descricao} por ${a.autor}</li>`;
+      });
+    }
+
+    // Estatísticas gerais
+    async function carregarEstatisticasGerais() {
+      const resp = await fetch('/dashboards/estatisticas');
+      const stats = (await resp.json())[0];
+      const div = document.getElementById('estatisticasGerais');
+      div.innerHTML = `
+        <p>Total de usuários: ${stats.total_usuarios}</p>
+        <p>Imagens postadas: ${stats.total_imagens}</p>
+        <p>Total de posts: ${stats.total_posts}</p>
+        <p>Total de comentários: ${stats.total_comentarios}</p>
+      `;
+    }
+
+    // Gráfico de barras - Postagens por usuário
+    async function carregarGraficoPosts() {
+      const resp = await fetch('/dashboards/posts-por-usuario');
+      const dados = await resp.json();
+      const postsCtx = document.getElementById('chartPosts').getContext('2d');
+      new Chart(postsCtx, {
+        type: 'bar',
+        data: {
+          labels: dados.map(u => u.username),
+          datasets: [{ label:'Posts', data: dados.map(u => u.total_posts) }]
+        },
+        options: { scales:{ y:{ beginAtZero:true } } }
+      });
+    }
+
+    // Gráfico de pizza - Avaliações de imagens
+    async function carregarGraficoAvaliacoes() {
+      const resp = await fetch('/dashboards/avaliacoes-imagens');
+      const dados = await resp.json();
+      const avalCtx = document.getElementById('chartAvaliacoes').getContext('2d');
+      new Chart(avalCtx, {
+        type: 'pie',
+        data: {
+          labels: dados.map(i => i.descricao),
+          datasets: [{ data: dados.map(i => i.media) }]
+        }
+      });
+    }
+
+    // Gráfico de linha - Pontuações do minigame
+    async function carregarGraficoPontuacoes() {
+      const resp = await fetch('/dashboards/pontuacoes-minigame');
+      const dados = await resp.json();
+      const pontCtx = document.getElementById('chartPontuacoes').getContext('2d');
+      new Chart(pontCtx, {
+        type: 'line',
+        data: {
+          labels: dados.map(p => p.username),
+          datasets: [{ label:'Pontuação', data: dados.map(p => p.pontuacao), fill:false, tension:0.2 }]
+        },
+        options:{ scales:{ y:{ beginAtZero:true } } }
+      });
+    }
+
+    // Chame todas as funções ao carregar a página
+    carregarUsuariosAtivos();
+    carregarTopImagens();
+    carregarRankingMinigame();
+    carregarAtividadeRecente();
+    carregarEstatisticasGerais();
+    carregarGraficoPosts();
+    carregarGraficoAvaliacoes();
+    carregarGraficoPontuacoes();
   </script>
 </body>
 </html>

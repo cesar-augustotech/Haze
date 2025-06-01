@@ -104,6 +104,37 @@
       background: rgb(251, 156, 163);
       ;
     }
+    .avatar-edit {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.avatar-edit input[type="file"] {
+  display: none;
+}
+
+.avatar-edit .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-edit .avatar-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.avatar-edit:hover .avatar-overlay {
+  opacity: 1;
+}
   </style>
 </head>
 
@@ -126,8 +157,11 @@
 
     <div class="card-perfil">
       <div class="perfil-header">
-        <img id="avatar" src="https://via.placeholder.com/80" alt="Avatar" class="avatar">
-        <input type="file" id="artImage" placeholder="URL da Imagem" class="ipt_edit">
+        <label class="avatar-edit">
+  <img id="avatar" src="https://via.placeholder.com/80" alt="Avatar" class="avatar">
+  <input type="file" id="artImage" class="ipt_edit" style="display:none">
+  <span class="avatar-overlay"></span>
+</label>
         <div class="nome-usuario" id="username">Nada</div>
         <input class="ipt_edit" id="ipt_nome" type="text" placeholder="Escolha seu novo apelido">
       </div>
@@ -151,32 +185,25 @@
     // Simulação de usuário logado e perfil próprio
 
     let usuario = JSON.parse(sessionStorage.getItem('usuario'));
-    async function carregar() {
-
-      //Recarregar session storage do usuário
-      let dados = fetch("/usuarios/recarregar/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          idServer: 1
-        })
-      }
-      )
-      console.log( await dados.JSON)
-      usuario = await dados.JSON;
-      
-    }
-
-    carregar()
-    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+   
   
 
 
     const isOwner = true; // trocar conforme sesssionStorage ou login real
 
     const avatarDisplay = document.getElementById('avatar');
+    const artImageInput = document.getElementById('artImage');
+
+artImageInput.addEventListener('change', function () {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      avatarDisplay.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
     const usernameDisplay = document.getElementById('username');
     const bioInput = document.getElementById('ipt_bio');
     const steamDisplay = document.getElementById('steamDisplay');
@@ -211,35 +238,52 @@
     }
 
     editBtn.addEventListener('click', () => {
+  steamInput.value = steamDisplay.textContent === '—' ? '' : steamDisplay.textContent;
+  bioInput.value = bio.textContent === 'Sem bio definida.' ? '' : bio.textContent;
+  usernameInput.value = username.textContent;
 
-      steamInput.value = steamDisplay.textContent === '—' ? '' : steamDisplay.textContent;
-      bioInput.value = bio.textContent === 'Sem bio definida.' ? '' : bio.textContent;
-      usernameInput.value = username.textContent
-      steamDisplay.style.display = 'none';
-      steamInput.style.display = 'block';
-      usernameInput.style.display = 'block';
-      bioInput.style.display = 'block';
-      saveBtn.disabled = false;
-    });
+  steamDisplay.style.display = 'none';
+  steamInput.style.display = 'block';
+  usernameInput.style.display = 'block';
+  bioInput.style.display = 'block';
+  saveBtn.disabled = false;
+});
+ saveBtn.addEventListener('click', async () => {
+  const novoId = steamInput.value.trim();
+  const novaBio = bioInput.value.trim();
+  const novoNome = usernameInput.value.trim();
+  const avatarFile = document.getElementById('artImage').files[0];
 
-    saveBtn.addEventListener('click', () => {
-      const newId = steamInput.value.trim();
-      // Aqui você faria chamada ao seu backend para salvar o novo SteamID
-      // Exemplo (fetch):
-      // fetch('/api/usuario/steam', { method:'POST', body: JSON.stringify({ steamId: newId }) })
-      // Após sucesso:
-      fetch('/usuarios/', {
-        method: 'POST',
-        body: JSON.stringify({
-          bioServer: bioInput,
-          userServer: usernameInput,
-          Server: usuario,
-          steamIdServer: steamInput
-        })
-      }
-      ).then(Window.reload)
-    });
+  let formData = new FormData();
+  formData.append('steamIdServer', novoId);
+  formData.append('bioServer', novaBio);
+  formData.append('userServer', novoNome);
+  formData.append('idServer', usuario.id);
+  if (avatarFile) {
+    formData.append('avatar', avatarFile);
+  }
 
+  await fetch('/usuarios/atualizar', {
+    method: 'POST',
+    body: formData
+  });
+
+  // Recarrega o usuário do backend
+  let resposta = await fetch("/usuarios/recarregar/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      idServer: usuario.id
+    })
+  });
+  let dados = await resposta.json();
+  usuario = Array.isArray(dados) ? dados[0] : dados;
+  sessionStorage.setItem("usuario", JSON.stringify(usuario));
+
+  window.location.reload();
+});
 
 
   </script>

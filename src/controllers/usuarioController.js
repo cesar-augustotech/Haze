@@ -85,8 +85,72 @@ function recarregar (req,res) {
     )
 }
 
+
+const fs = require('fs');
+const path = require('path');
+
+function atualizar(req, res) {
+    var id = req.body.idServer;
+    var nome = req.body.userServer;
+    var bio = req.body.bioServer;
+    var steamId = req.body.steamIdServer;
+    var avatar_url = req.file ? '/assets/pfp/' + req.file.filename : null;
+
+    if (id == undefined) {
+        res.status(400).send("O id está undefined!");
+    } else if (nome == undefined) {
+        res.status(400).send("O nome está undefined!");
+    } else if (bio == undefined) {
+        res.status(400).send("A bio está undefined!");
+    } else if (steamId == undefined) {
+        res.status(400).send("O Steam ID está undefined!");
+    } else {
+        // Se houver nova imagem, remova a antiga (exceto placeholder)
+        if (avatar_url) {
+            usuarioModel.recarregar(id)
+                .then(function (resultado) {
+                    const usuarioAtual = Array.isArray(resultado) ? resultado[0] : resultado;
+                    if (
+                        usuarioAtual.avatar_url &&
+                        usuarioAtual.avatar_url !== '/assets/pfp/default.png' &&  
+                        usuarioAtual.avatar_url !== avatar_url
+                    ) {
+                        const caminhoAntigo = path.join(__dirname, '../../public', usuarioAtual.avatar_url);
+                        fs.unlink(caminhoAntigo, err => {
+                            if (err) console.log('Erro ao remover avatar antigo:', err.message);
+                        });
+                    }
+                    // Agora atualiza o usuário
+                    usuarioModel.atualizar(id, nome, bio, steamId, avatar_url)
+                        .then(function (resultado) {
+                            res.json(resultado);
+                        })
+                        .catch(function (erro) {
+                            console.log(erro);
+                            console.log("\nHouve um erro ao atualizar o usuário! Erro: ", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        });
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                });
+        } else {
+            usuarioModel.atualizar(id, nome, bio, steamId, avatar_url)
+                .then(function (resultado) {
+                    res.json(resultado);
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao atualizar o usuário! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                });
+        }
+    }
+}
 module.exports = {
     autenticar,
     cadastrar,
-    recarregar
+    recarregar,
+    atualizar
 }

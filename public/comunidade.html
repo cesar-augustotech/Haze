@@ -37,7 +37,7 @@
     <div class="tab conteudo-tab" id="mural">
       <button class="novaPostagem" id="novaPostagemMural" style="margin-bottom:15px;">+ Nova Postagem</button>
       <div class="grid-mural" id="lista-mural">
-     
+
       </div>
     </div>
 
@@ -45,7 +45,7 @@
     <div class="tab conteudo-tab" id="forum" style="display:none;">
       <button class="novaPostagem" id="novaPostagemForum" style="margin-bottom:15px;">+ Nova Postagem</button>
       <ul class="lista-posts" id="lista-forum">
-      
+
       </ul>
     </div>
   </div>
@@ -53,22 +53,22 @@
   <!-- Modal genérico -->
   <div class="modal" id="modal">
     <div class="modal-conteudo">
-      <button class="fechar" id="fecharModal">×</button>
+      <button class="fechar" id="fecharModal">X</button>
       <div id="modalBody"></div>
     </div>
   </div>
 
   <script>
-  
+
     const usuarioStr = sessionStorage.getItem("usuario");
     if (!usuarioStr) {
       sessionStorage.setItem("avisoLogin", "Você precisa estar logado para acessar esta página.");
       window.location.href = "index.html#auth";
     }
 
-
+    const usuario = JSON.parse(usuarioStr);
     try {
-      const usuario = JSON.parse(usuarioStr);
+
       if (usuario) {
         document.querySelector(".nav-perfil").innerHTML = `${usuario.username} <img class="pfp" src="${usuario.avatar_url || 'https://via.placeholder.com/32'}" alt="Foto de perfil"> `;
       }
@@ -84,24 +84,79 @@
       mural.innerHTML = '';
       posts.forEach(post => {
         mural.innerHTML += `
-        <div class="card-imagem" data-titulo="${post.descricao}">
-          <h3 style="width:100%; text-align:center">${post.descricao}</h3>
-          <img style="width:100%; " src="${post.imagem}" alt="${post.descricao}">
-          <div class="info">
-            <div><img src="${post.avatar || 'https://via.placeholder.com/32'}" class="avatar" alt=""></div>
-            <div class="autor">${post.autor}</div>
-            <div class="estrelas">${post.estrelas || ''}</div>
-          </div>
-          <div class="acoes">
-            <button class="btn-like">👍</button>
-            <button class="btn-comentar">💬</button>
-          </div>
-        </div>
-      `;
+  <div class="card-imagem" data-titulo="${post.descricao}">
+    ${usuario.id === post.autorId
+      ? `<button class="btn-remover" data-id="${post.id}" title="Remover postagem">🗑️</button>`
+      : ''
+    }
+    <h3 style="width:100%; text-align:center">${post.descricao}</h3>
+    <img style="width:100%;" src="${post.imagem}" alt="${post.descricao}">
+    <div class="info">
+      <div><img src="${post.avatar || 'https://via.placeholder.com/32'}" class="avatar" alt=""></div>
+      <div class="autor">${post.autor}</div>
+      <div class="estrelas">${post.estrelas || ''}</div>
+    </div>
+    <div class="avaliacao" data-id="${post.id}">
+      <span style="margin-right:4px;">Avaliar:</span>
+      <select class="select-avaliacao">
+        <option value="">⭐</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <button class="btn-avaliar">Enviar</button>
+    </div>
+  </div>
+`;
       });
-      // Reaplique eventos de modal nas novas cards
+
+      // Impede propagação do clique no select e botão de avaliação
+      document.querySelectorAll('.select-avaliacao').forEach(sel => {
+        sel.addEventListener('click', e => e.stopPropagation());
+      });
+      document.querySelectorAll('.btn-avaliar').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const div = btn.closest('.avaliacao');
+          const imagemId = div.getAttribute('data-id');
+          const nota = div.querySelector('.select-avaliacao').value;
+          if (!nota) {
+            alert('Selecione uma nota!');
+            return;
+          }
+          await fetch(`/posts/avaliar/${imagemId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ usuarioId: usuario.id, nota })
+          });
+          alert('Avaliação enviada!');
+          carregarMural();
+        });
+      });
+
+      document.querySelectorAll('.btn-remover').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const postId = btn.getAttribute('data-id');
+          if (confirm('Tem certeza que deseja remover esta postagem?')) {
+            await fetch(`/posts/remover/${postId}`, { method: 'DELETE' });
+            carregarMural();
+          }
+        });
+      });
+
+      // Só abre o modal se não for clique em avaliação ou remover
       document.querySelectorAll('.card-imagem').forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+          // Se o clique foi em um botão ou select dentro de .acoes, não abre modal
+          if (
+            e.target.closest('.btn-remover') ||
+            e.target.closest('.btn-avaliar') ||
+            e.target.closest('.select-avaliacao') ||
+            e.target.closest('.avaliacao')
+          ) return;
           const titulo = card.getAttribute('data-titulo');
           const src = card.querySelector('img').src;
           const html = `<h3>${titulo}</h3><img src="${src}" alt="${titulo}">`;
@@ -112,21 +167,80 @@
     }
 
     // Função para buscar e renderizar posts do fórum
-   async function carregarForum() {
-  const resp = await fetch('/posts/forum');
-  const posts = await resp.json();
-  const forum = document.getElementById('lista-forum');
-  forum.innerHTML = '';
-  posts.forEach(post => {
-    forum.innerHTML += `
-      <li class="post-item" data-titulo="${post.titulo}">
-        <h3>${post.titulo}</h3>
-        <div class="meta">${post.autor} • ${new Date(post.data_postagem).toLocaleString()}</div>
-        <p class="conteudo">${post.conteudo}</p>
-      </li>
-    `;
-  });
-}
+    async function carregarForum() {
+      const resp = await fetch('/posts/forum');
+      const posts = await resp.json();
+      const forum = document.getElementById('lista-forum');
+      forum.innerHTML = '';
+
+      posts.forEach(post => {
+        forum.innerHTML += `
+    <li class="post-item" data-titulo="${post.titulo}" data-id="${post.id}">
+      <h3>${post.titulo}</h3>
+      <div class="meta">${post.autor} • ${new Date(post.data_postagem).toLocaleString()}</div>
+      <p class="conteudo">${post.conteudo}</p>
+      <div class="acoes-forum">
+        ${usuario.id === post.autorId
+            ? `
+              <button class="btn-editar-forum" data-id="${post.id}">✏️ Editar</button>
+              <button class="btn-remover-forum" data-id="${post.id}">🗑️ Remover</button>
+            `
+            : ''
+          }
+      </div>
+    </li>
+  `;
+      });
+
+      document.querySelectorAll('.btn-remover-forum').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const postId = btn.getAttribute('data-id');
+          if (confirm('Tem certeza que deseja remover este post?')) {
+            await fetch(`/posts/removerForum/${postId}`, { method: 'DELETE' });
+            carregarForum();
+          }
+        });
+      });
+
+      document.querySelectorAll('.btn-editar-forum').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const postId = btn.getAttribute('data-id');
+          const postItem = btn.closest('.post-item');
+          const titulo = postItem.querySelector('h3').textContent;
+          const conteudo = postItem.querySelector('.conteudo').textContent;
+
+          // Mostra modal de edição
+         const form = `
+  <h3>Criar Nova Postagem</h3>
+  <label for="postTitle" style="font-weight:500;">Título</label>
+  <input type="text" id="postTitle" placeholder="Título" maxlength="100" required>
+  <label for="postContent" style="font-weight:500;">Conteúdo</label>
+  <textarea id="postContent" rows="6" placeholder="Conteúdo..." maxlength="1000" required></textarea>
+  <button id="salvarPost" class="novaPostagem">Salvar</button>
+`;
+          document.getElementById('modalBody').innerHTML = form;
+          document.getElementById('modal').classList.add('active');
+
+          document.getElementById('salvarEdicaoPost').addEventListener('click', async () => {
+            const novoTitulo = document.getElementById('editPostTitle').value;
+            const novoConteudo = document.getElementById('editPostContent').value;
+            await fetch(`/posts/editarForum/${postId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                titulo: novoTitulo,
+                conteudo: novoConteudo,
+                usuarioId: usuario.id
+              })
+            });
+            await carregarForum();
+            document.getElementById('fecharModal').click();
+          });
+        });
+      });
+    }
 
     // Troca de tabs mural e fórum e carrega os dados
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -159,7 +273,7 @@
         document.getElementById('modal').classList.add('active');
         document.getElementById('salvarArte').addEventListener('click', async () => {
           const titulo = document.getElementById('artTitle').value;
-          
+
           const usuario = JSON.parse(sessionStorage.getItem("usuario"));
           const fileInput = document.getElementById('artImage');
           const imagem = fileInput.files[0];
@@ -192,7 +306,7 @@
         const form = `
         <h3>Criar Nova Postagem</h3>
         <input type="text" id="postTitle" placeholder="Título" class="filtros" style="border-radius:25px;width:75%; padding:8px 8px 0 8px;"><br>
-        <textarea id="postContent" rows="5" placeholder="Conteúdo..."  style="border-radius:25px; width:100%; aling-text:center" class="filtros"></textarea><br>
+        <textarea id="postContent" rows="5" placeholder="Conteúdo..."  style="border-radius:25px; min-width:50vw; aling-text:center" class="filtros"></textarea><br>
         <button id="salvarPost" class="novaPostagem">Salvar</button>
       `;
         document.getElementById('modalBody').innerHTML = form;
