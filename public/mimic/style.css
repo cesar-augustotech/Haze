@@ -3,7 +3,59 @@ margin: 0;
 padding: 0;
 }
 
-
+header {
+  background: #1e1e1e;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  box-shadow: 0 2px 8px #0002;
+}
+.logo {
+  font-size: 1.5rem;
+  color: rgb(251,156,163);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+nav a {
+  color: rgb(251,156,163);
+  font-weight: bold;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+}
+nav a:hover, nav a.active {
+  background: rgb(251,156,163);
+  color: #111;
+}
+.pfp {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+.nav-perfil {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  padding: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+section.main-mimicastle {
+  margin-top: 70px;
+}
 .main-mimicastle{
 height: 100vh;
 width: 100vw;
@@ -30,13 +82,12 @@ justify-content: center;
 
 
 #minimapa {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 200px;
+    right: 200px;
     background: rgba(30,30,30,0.9);
     padding: 8px;
     border-radius: 8px;
-    z-index: 100;
+    
 }
 .minimapa-celula {
     width: 25px;
@@ -102,3 +153,79 @@ justify-content: center;
     justify-content: center;
     z-index: 1;
 }
+
+
+        body { background-color: rebeccapurple; }
+        #sala-fade {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rebeccapurple;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 999;
+        }
+        #minimapa {
+            position: fixed;
+            top: 200px;
+            right: 200px;
+            background: rgba(30,30,30,0.9);
+            padding: 8px;
+            border-radius: 8px;
+            z-index: 100;
+        }
+        .minimapa-celula {
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            text-align: center;
+            font-size: 15px;
+            border-radius: 3px;
+        }
+        #sala-container {
+            position: relative;
+            width: 550px;
+            height: 550px;
+            margin: 40px auto;
+        }
+        .seta-direcao {
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: none;
+            background: #333;
+            color: #fff;
+            transition: background 0.2s, box-shadow 0.2s;
+            outline: none;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .seta-direcao.habilitada { background: #666; }
+        .seta-direcao.selecionada {
+            background: #0f0;
+            color: #222;
+            box-shadow: 0 0 10px #0f0;
+        }
+        .seta-direcao:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        #render_sala {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 120px;
+            height: 120px;
+            transform: translate(-50%,-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+        #pontuacao, #armor, #time {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 8px;
+        }
+    

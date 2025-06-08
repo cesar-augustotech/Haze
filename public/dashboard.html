@@ -33,12 +33,12 @@
         <div id="topImagens"></div>
       </div>
 
-      <!-- Card: Ranking do Minigame -->
+      <!-- Card: Ranking do Minigame 
       <div class="card">
         <h2>🏅 Ranking do Minigame</h2>
         <ul class="ranking" id="rankingMinigame"></ul>
       </div>
-
+-->
       <!-- Card: Atividade Recente -->
       <div class="card">
         <h2>📅 Atividade Recente</h2>
@@ -63,12 +63,12 @@
         <canvas id="chartAvaliacoes"></canvas>
       </div>
 
-      <!-- Chart: Pontuações do Minigame -->
+      <!-- Chart: Pontuações do Minigame 
       <div class="card">
         <h2>🎯 Pontuações Recentes</h2>
         <canvas id="chartPontuacoes"></canvas>
       </div>
-
+-->
     </div>
   </div>
 
@@ -110,6 +110,7 @@
     }
 
     // Ranking do minigame
+    /*
     async function carregarRankingMinigame() {
       const resp = await fetch('/dashboards/ranking-minigame');
       const ranking = await resp.json();
@@ -119,7 +120,7 @@
         ul.innerHTML += `<li>🎯 ${r.username} - ${r.pontuacao} pts</li>`;
       });
     }
-
+*/
     // Atividade recente
     async function carregarAtividadeRecente() {
       const resp = await fetch('/dashboards/atividade-recente');
@@ -148,6 +149,7 @@
     }
 
     // Gráfico de barras - Postagens por usuário
+
     async function carregarGraficoPosts() {
       const resp = await fetch('/dashboards/posts-por-usuario');
       const dados = await resp.json();
@@ -163,6 +165,7 @@
     }
 
     // Gráfico de pizza - Avaliações de imagens
+    
     async function carregarGraficoAvaliacoes() {
       const resp = await fetch('/dashboards/avaliacoes-imagens');
       const dados = await resp.json();
@@ -170,13 +173,14 @@
       new Chart(avalCtx, {
         type: 'pie',
         data: {
-          labels: dados.map(i => i.descricao),
-          datasets: [{ data: dados.map(i => i.media) }]
+          labels: dados.map(i => i.nota),
+          datasets: [{ data: dados.map(i => i.quantidade) }]
         }
       });
     }
 
     // Gráfico de linha - Pontuações do minigame
+    /*
     async function carregarGraficoPontuacoes() {
       const resp = await fetch('/dashboards/pontuacoes-minigame');
       const dados = await resp.json();
@@ -190,16 +194,20 @@
         options:{ scales:{ y:{ beginAtZero:true } } }
       });
     }
-
+*/
     // Chame todas as funções ao carregar a página
     carregarUsuariosAtivos();
     carregarTopImagens();
+    /*
     carregarRankingMinigame();
+    */
     carregarAtividadeRecente();
     carregarEstatisticasGerais();
     carregarGraficoPosts();
     carregarGraficoAvaliacoes();
+    /*
     carregarGraficoPontuacoes();
+    */
   </script>
 </body>
 </html>

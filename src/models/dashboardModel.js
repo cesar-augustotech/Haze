@@ -105,11 +105,12 @@ function postsPorUsuario() {
 // Dados para gráfico: avaliações de imagens
 function avaliacoesImagens() {
     var instrucaoSql = `
-        SELECT m.descricao, COUNT(av.id) AS total_avaliacoes, ROUND(AVG(av.nota),2) AS media
-        FROM imagens_mural m
-        LEFT JOIN avaliacoes_imagens av ON av.imagem_id = m.id
-        GROUP BY m.id
-        ORDER BY total_avaliacoes DESC;
+        SELECT 
+            nota,
+            COUNT(*) AS quantidade
+        FROM avaliacoes_imagens
+        GROUP BY nota
+        ORDER BY nota DESC;
     `;
     return database.executar(instrucaoSql);
 }

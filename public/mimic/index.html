@@ -5,85 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MimiCastle</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        #sala-fade {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rebeccapurple;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s;
-            z-index: 999;
-        }
-        #minimapa {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(30,30,30,0.9);
-            padding: 8px;
-            border-radius: 8px;
-            z-index: 100;
-        }
-        .minimapa-celula {
-            width: 25px;
-            height: 25px;
-            display: inline-block;
-            text-align: center;
-            font-size: 15px;
-            border-radius: 3px;
-        }
-        #sala-container {
-            position: relative;
-            width: 550px;
-            height: 550px;
-            margin: 40px auto;
-        }
-        .seta-direcao {
-            font-size: 2rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            border: none;
-            background: #333;
-            color: #fff;
-            transition: background 0.2s, box-shadow 0.2s;
-            outline: none;
-            cursor: pointer;
-            z-index: 2;
-        }
-        .seta-direcao.habilitada {
-            background: #666;
-        }
-        .seta-direcao.selecionada {
-            background: #0f0;
-            color: #222;
-            box-shadow: 0 0 10px #0f0;
-        }
-        .seta-direcao:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        #render_sala {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 120px;
-            height: 120px;
-            transform: translate(-50%,-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-        #pontuacao, #armor, #time {
-            color: #fff;
-            font-size: 1.2rem;
-            margin: 8px;
-        }
-    </style>
+    
 </head>
-<body style="background-color: rebeccapurple;">
- <section class="main-mimicastle">
+<body>
+    <header>
+  <div class="logo"><a href="/index.html">Haze</a></div>
+  <nav>
+   
+    <a href="/comunidade.html">Comunidade</a>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="/perfil.html" class="nav-perfil">
+      <img class="pfp" src="https://via.placeholder.com/32" alt="Perfil">
+    </a>
+  </nav>
+</header>
+<section class="main-mimicastle">
     <div id="sala-container">
         <button class="seta-direcao" id="seta-cima" style="position:absolute; left:50%; top:0; transform:translate(-50%, -70%);">↑</button>
         <button class="seta-direcao" id="seta-baixo" style="position:absolute; left:50%; bottom:0; transform:translate(-50%, 70%);">↓</button>
@@ -97,27 +33,23 @@
     <div id="minimapa"></div>
     <div id="sala-fade"></div>
 </section>
-</body>
 <script>
-let posicaoJogadorX = 0;
-let posicaoJogadorY = 0;
-let mapa = [];
-let visitados = [];
-let pontuacao = 0;
-let armor = 0;
-let timer = 0;
-let acabou = false;
-let temporizador;
 
-// Imagens das salas
+
+
+/* --- Variáveis globais --- */
+let posicaoJogadorX = 0, posicaoJogadorY = 0;
+let mapa = [], visitados = [];
+let pontuacao = 0, armor = 0, timer = 0, acabou = false, temporizador;
+const colunas = 5, linhas = 5;
+
+/* --- Imagens das salas --- */
 const salaNormal = `<img class="sala" src="assets/explorada.png">`;
 const salaTocha = `<img class="sala" src="assets/bauTocha.png">`;
 const salaCaveira = `<img class="sala" src="assets/mimicOsso.png">`;
 
- let colunas = 5;
-    let linhas = 5;
+/* --- Inicialização --- */
 function criarMapa() {
-  
     mapa = [];
     visitados = [];
     for (let i = 0; i < linhas; i++) {
@@ -129,36 +61,37 @@ function criarMapa() {
         }
     }
     mapa[0][0] = 0;
-    visitados[0][0] = true; // Marca a sala inicial como visitada
+    visitados[0][0] = true;
 }
 
+/* --- Renderização da sala --- */
 function salaExibida(posicaoatual) {
     let render = '';
     if (posicaoatual === 0) render = salaNormal;
     else if (posicaoatual === 1 || posicaoatual === 2) render = salaTocha;
-    else if (posicaoatual === 3 || posicaoatual === 4 || posicaoatual === 5 || posicaoatual === 6) render = salaCaveira;
+    else render = salaCaveira;
     document.getElementById('render_sala').innerHTML = render;
     document.getElementById('pontuacao').innerText = `Pontuação: ${pontuacao}`;
     document.getElementById('armor').innerText = `Armadura: ${armor}`;
 }
 
+/* --- Atualiza setas de movimento --- */
 function atualizarSetas() {
     document.getElementById('seta-cima').disabled = (posicaoJogadorY <= 0);
-    document.getElementById('seta-baixo').disabled = (posicaoJogadorY >= 7);
+    document.getElementById('seta-baixo').disabled = (posicaoJogadorY >= linhas - 1);
     document.getElementById('seta-esquerda').disabled = (posicaoJogadorX <= 0);
-    document.getElementById('seta-direita').disabled = (posicaoJogadorX >= 7);
+    document.getElementById('seta-direita').disabled = (posicaoJogadorX >= colunas - 1);
 
     document.querySelectorAll('.seta-direcao').forEach(btn => {
-        btn.classList.remove('selecionada');
-        btn.classList.remove('habilitada');
+        btn.classList.remove('selecionada', 'habilitada');
         if (!btn.disabled) btn.classList.add('habilitada');
     });
 }
 
+/* --- Movimento do jogador --- */
 function moverPosicao(x = 0, y = 0, direcao = '') {
     const novoX = posicaoJogadorX + x;
     const novoY = posicaoJogadorY + y;
-    // Checa limites antes de mover
     if (novoX < 0 || novoX >= colunas || novoY < 0 || novoY >= linhas) return;
 
     if (direcao) {
@@ -168,9 +101,7 @@ function moverPosicao(x = 0, y = 0, direcao = '') {
             'esquerda': 'seta-esquerda',
             'direita': 'seta-direita'
         }[direcao];
-        if (id) {
-            document.getElementById(id).classList.add('selecionada');
-        }
+        if (id) document.getElementById(id).classList.add('selecionada');
     }
 
     setTimeout(() => {
@@ -180,8 +111,7 @@ function moverPosicao(x = 0, y = 0, direcao = '') {
             posicaoJogadorX = novoX;
             posicaoJogadorY = novoY;
             visitados[posicaoJogadorY][posicaoJogadorX] = true;
-            let posicaoatual = mapa[posicaoJogadorY][posicaoJogadorX];
-            salaExibida(posicaoatual);
+            salaExibida(mapa[posicaoJogadorY][posicaoJogadorX]);
             renderMinimapa();
             atualizarSetas();
             fade.style.opacity = 0;
@@ -192,6 +122,7 @@ function moverPosicao(x = 0, y = 0, direcao = '') {
     }, 150);
 }
 
+/* --- Ação de pegar item na sala --- */
 function pegar() {
     let posicaoatual = mapa[posicaoJogadorY][posicaoJogadorX];
     let rng = 0;
@@ -207,11 +138,8 @@ function pegar() {
         rng = Math.floor(Math.random() * 15 + armor);
         if (rng < 6) {
             alert('Apanhou! -1 armadura');
-            if (armor > 0) {
-                armor--;
-            } else {
-                acabou = true;
-            }
+            if (armor > 0) armor--;
+            else acabou = true;
         } else {
             armor++;
             pontuacao += 10;
@@ -222,11 +150,8 @@ function pegar() {
         rng = Math.floor(Math.random() * 30 + armor);
         if (rng < 20) {
             alert('Apanhou muito! -2 armadura');
-            if (armor > 2) {
-                armor -= 2;
-            } else {
-                acabou = true;
-            }
+            if (armor > 2) armor -= 2;
+            else acabou = true;
         } else {
             armor += 2;
             pontuacao += 25;
@@ -239,32 +164,7 @@ function pegar() {
     atualizarSetas();
 }
 
-window.addEventListener('keydown', (e) => {
-    if (e.repeat) return;
-    switch (e.key) {
-        case 'w':
-            moverPosicao(0, -1, 'cima');
-            break;
-        case 'a':
-            moverPosicao(-1, 0, 'esquerda');
-            break;
-        case 's':
-            moverPosicao(0, 1, 'baixo');
-            break;
-        case 'd':
-            moverPosicao(1, 0, 'direita');
-            break;
-        case ' ':
-            pegar();
-            break;
-    }
-});
-
-document.getElementById('seta-cima').onclick = () => moverPosicao(0, -1, 'cima');
-document.getElementById('seta-baixo').onclick = () => moverPosicao(0, 1, 'baixo');
-document.getElementById('seta-esquerda').onclick = () => moverPosicao(-1, 0, 'esquerda');
-document.getElementById('seta-direita').onclick = () => moverPosicao(1, 0, 'direita');
-
+/* --- Renderização do minimapa --- */
 function renderMinimapa() {
     let html = '';
     for (let y = 0; y < mapa.length; y++) {
@@ -278,7 +178,7 @@ function renderMinimapa() {
                     cell = `<span class="minimapa-celula" style="${style};background:#aaa;"></span>`;
                 } else if (mapa[y][x] === 1 || mapa[y][x] === 2) {
                     cell = `<span class="minimapa-celula" style="${style};background:#222;">🪙</span>`;
-                } else if (mapa[y][x] === 3 || mapa[y][x] === 4 || mapa[y][x] === 5 || mapa[y][x] === 6) {
+                } else {
                     cell = `<span class="minimapa-celula" style="${style};background:#222;">💀</span>`;
                 }
             } else {
@@ -291,13 +191,7 @@ function renderMinimapa() {
     document.getElementById('minimapa').innerHTML = html;
 }
 
-// Timer e fim de jogo
-temporizador = setInterval(() => {
-    timer++;
-    document.getElementById('time').innerText = `Tempo: ${timer}`;
-    pararJogo();
-}, 1000);
-
+/* --- Timer e fim de jogo --- */
 function pararJogo() {
     if (timer >= 20 || acabou) {
         clearInterval(temporizador);
@@ -306,12 +200,36 @@ function pararJogo() {
     }
 }
 
-// Inicialização
-criarMapa();
-salaExibida(mapa[posicaoJogadorY][posicaoJogadorX]);
-renderMinimapa();
-atualizarSetas();
-document.getElementById('armor').innerText = `Armadura: ${armor}`;
-document.getElementById('time').innerText = `Tempo: ${timer}`;
+/* --- Eventos de teclado e botões --- */
+window.addEventListener('keydown', (e) => {
+    if (e.repeat) return;
+    switch (e.key) {
+        case 'w': moverPosicao(0, -1, 'cima'); break;
+        case 'a': moverPosicao(-1, 0, 'esquerda'); break;
+        case 's': moverPosicao(0, 1, 'baixo'); break;
+        case 'd': moverPosicao(1, 0, 'direita'); break;
+        case ' ': pegar(); break;
+    }
+});
+document.getElementById('seta-cima').onclick = () => moverPosicao(0, -1, 'cima');
+document.getElementById('seta-baixo').onclick = () => moverPosicao(0, 1, 'baixo');
+document.getElementById('seta-esquerda').onclick = () => moverPosicao(-1, 0, 'esquerda');
+document.getElementById('seta-direita').onclick = () => moverPosicao(1, 0, 'direita');
+
+/* --- Inicialização do jogo --- */
+function iniciarJogo() {
+    criarMapa();
+    salaExibida(mapa[posicaoJogadorY][posicaoJogadorX]);
+    renderMinimapa();
+    atualizarSetas();
+    document.getElementById('armor').innerText = `Armadura: ${armor}`;
+    document.getElementById('time').innerText = `Tempo: ${timer}`;
+    temporizador = setInterval(() => {
+        timer++;
+        document.getElementById('time').innerText = `Tempo: ${timer}`;
+        pararJogo();
+    }, 1000);
+}
+iniciarJogo();
 </script>
 </html>
