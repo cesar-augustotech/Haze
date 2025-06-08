@@ -12,15 +12,18 @@
 
   <header>
     <div class="header-left">
-      <h1 style="padding-right: 25px;">HAZE</h1>
-      <h2> Conheça o desenvolvimento de jogos</h2>
+      <h1 style="padding-right: 50px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">HAZE</h1>
+    
 
     </div>
 
     <div class="header-right">
-      <button class="jogar" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Sobre o
-        Projeto</button>
-      <button class="jogar" onclick="window.location.href='comunidade.html'">Comunidade</button>
+          <button class="squishy squishy-candy" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">
+            SOBRE O PROJETO
+        </button>
+      <button class="squishy squishy-candy"onclick="window.location.href='comunidade.html'">   
+            COMUNIDADE
+        </button>
 
     </div>
 
@@ -30,14 +33,13 @@
     <div class="fundo-game">
       <div class="banner" id="banner">
         <div class="banner-content">
-          <h1>Descubra o mundo por trás dos games.</h1>
-          <p style="font-size: 50%;">Aprenda, jogue, e entenda por que isso importa para mim</p>
+          <h1>DESCUBRA O MUNDO POR TRÁS DOS GAMES</h1>
+          <h5>Aprenda, jogue, e entenda por que isso importa para mim</h5>
         </div>
         <div>
-          <button class="jogar" style="color:white;border-color:white; box-shadow: 5px 5px rgba(255,255,255,1)"
+          <button class="squishy squishy-candy"
             onclick="jogar()">Jogar</button>
-          <button class="jogar"
-            style="color:white;border-color:white; background-color: rgba(0,0,0,0.1); box-shadow: none;"
+          <button class="squishy squishy-candy"
             onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Sobre</button>
         </div>
       </div>
@@ -62,7 +64,12 @@
       <span class="sobre-title">Porquê sobre desenvolvimento de jogos</span>
       <p style="color: rgb(136, 138, 135);">Impacto cultural, econômico e pessoal dos jogos – e por que isso importa
         para mim.</p>
-
+        <br>
+        <div class="carrossel-setas">
+        <button class="seta squishy-candy" onclick="trocarBloco(-1)" >&#8592;</button>
+        <span id="carrossel-titulo" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Desenvolvimento de jogos</span>
+        <button class="seta squishy-candy" onclick="trocarBloco(1)">&#8594;</button>
+      </div>
       
       <div class="blocos" id="blocos-1">
         <div class="blocos-item">
@@ -401,11 +408,7 @@
 
 
       </div>
-<div class="carrossel-setas">
-        <button class="seta seta-esquerda" onclick="trocarBloco(-1)" >&#8592;</button>
-        <span id="carrossel-titulo">Desenvolvimento de jogos</span>
-        <button class="seta seta-direita" onclick="trocarBloco(1)">&#8594;</button>
-      </div>
+
 
 
     </section>
@@ -419,12 +422,12 @@
 
       <h2 style="color: rgb(136, 138, 135);">Entre ou crie uma conta para salvar seu progresso e fazer parte da
         comunidade HAZE.</h2>
-
+<br><br>
       <div class="auth-container">
         <h1>Login/Cadastro</h1>
         <div class="auth-header">
-          <button onclick="mostrarLogin()">Login</button>
-          <button onclick="mostrarCadastro()">Cadastro</button>
+          <button class="squishy-candy" onclick="mostrarLogin()">Login</button>
+          <button  class="squishy-candy" onclick="mostrarCadastro()">Cadastro</button>
         </div>
         <div class="auth-content">
 
@@ -434,7 +437,7 @@
             <h2>Login</h2>
             <input id="login-email" type="email" placeholder="Email" required>
             <input id="login-senha" type="password" placeholder="Senha" required>
-            <button type="button" style="align-self: center;" class="jogar" onclick="logar()">Entrar</button>
+            <button type="button" style="align-self: center;" class="jogar squishy-candy" onclick="logar()">Entrar</button>
           </form>
 
           <!-- Cadastro -->

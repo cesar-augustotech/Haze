@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let jogador = {}
+        const socket = new WebSocket('ws://localhost:3333');
+        socket.addEventListener('close', event => {
+            console.log('WebSocket connection closed:', event.code, event.reason);
+        });
+        socket.addEventListener('error', error => {
+            console.error('WebSocket error:', error);
+        });
+        socket.addEventListener('open', () => {
+            const data = { type: 'message', content: 'inicio' };
+            socket.send(JSON.stringify(data));
+        });
+
+        socket.addEventListener('message', event => {
+            try {
+                const receivedData = JSON.parse(event.data);
+
+                if (receivedData.tipo == "inicio") {
+                    if (receivedData.jogador == 0) {
+                        alert("sala cheia")
+                    } else {
+                        alert("aguarde para iniciar voce é o jogador " + receivedData.jogador)
+                        jogador = receivedData
+                    }
+                } else if (receivedData.tipo == "move") {
+                    if (receivedData.message == "bau") {
+                        alert("você encontrou um bau")
+                    } else if (receivedData.message == "bau aberto") {
+                        alert("bau aberto")
+                    }
+                    else if (receivedData.message == "morreu") {
+                        alert("MORREU")
+                    }
+                    else if (receivedData.message == "armadilha") {
+                        alert("ARMADILHA")
+                    }
+                    else if (receivedData.message == "parede") {
+                        alert("PAREDE")
+                    }
+                } else if (receivedData.tipo == "break") {
+                    alert("AGUARDE OS OUTROS JOGADORES")
+                }
+                console.log('Received JSON:', receivedData);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                console.log('Received data was:', event.data);
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            console.log(e)
+            if (e.key == "ArrowUp") {
+
+                const data = { type: 'message', content: 'move', move: "cima", jogador: jogador.jogador };
+
+                socket.send(JSON.stringify(data));
+            }
+            else if (e.key == "ArrowLeft") {
+                const data = { type: 'message', content: 'move', move: "esqueda", jogador: jogador.jogador };
+
+                socket.send(JSON.stringify(data));
+            }
+            else if (e.key == "ArrowRight") {
+                const data = { type: 'message', content: 'move', move: "direita", jogador: jogador.jogador };
+
+                socket.send(JSON.stringify(data));
+            }
+            else if (e.key == "ArrowDown") {
+                const data = { type: 'message', content: 'move', move: "baixo", jogador: jogador.jogador };
+
+                socket.send(JSON.stringify(data));
+            }
+            else if (e.code == "Space") {
+                const data = { type: 'message', content: 'action', jogador: jogador.jogador };
+
+                socket.send(JSON.stringify(data));
+            }
+        });
+
+    </script>
+</head>
+
+<body style="background-color: rebeccapurple;">
+    <section class="main-mimicastle">
+        <canvas id="render_sala">
+
+
+        </canvas>
+    </section>
+</body>
+<script>
+    var posicaoInicial
+    var mapa
+
+    function criarMapa() {
+        mapa = [[1], [2], [0], [1], [2]]
+        posicaoInicial = mapa[0][0]
+    }
+
+    function moverPosicao(x, y) {
+        posicaoInicial = mapa[0][0]
+        console.log(posicaoInicial)
+        var posicaoatual = posicaoInicial
+        salaExibida(posicaoatual)
+    }
+
+    function salaExibida(posicaoatual) {
+
+        render_sala.innerHTML = posicaoatual
+
+    }
+
+
+    criarMapa()
+    moverPosicao()
+
+</script>
+
+</html>

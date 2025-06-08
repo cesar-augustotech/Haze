@@ -26,6 +26,7 @@ header {
 }
 .logo {
   font-size: 1.5rem;
+  font-weight: bolder;
 }
 
 nav {
@@ -35,7 +36,8 @@ nav {
 }
 nav a {
   margin-left: 20px;
-  font-weight: bold;
+  
+  font-weight: bolder;
 }
 
 a.nav-perfil {
@@ -50,7 +52,7 @@ a.nav-perfil {
   align-items: center;
 }
 
-/* Container */
+
 .container {
   padding: 20px;
 }
@@ -59,7 +61,7 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* Grid padrão */
+
 .dashboard-grid {
   padding: 50px;
   display: grid;
@@ -69,7 +71,7 @@ h1 {
 
 .grid-mural {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 15px 30px;
 }
@@ -118,6 +120,7 @@ h1 {
   overflow: hidden;
   margin: 0 auto;
   position: relative; /* Para o botão ficar absoluto dentro do card */
+  justify-content: flex-end;
 }
 
 /* Imagem do card: cobre o topo do card, mantém proporção e corta excesso */
@@ -208,7 +211,7 @@ h1 {
   color: #fff;
 }
 
-/* Modal aprimorado para criar postagens */
+
 .modal {
   display: none;
   position: fixed;
@@ -312,8 +315,9 @@ h1 {
   max-height: 90vh;
   width: auto;
   height: auto;
-  margin: 0 auto;
-  border-radius: 8px;
+  margin: 0 ;
+  border-radius: 10px;
+
 }
 
 /* Chart.js */
@@ -402,3 +406,52 @@ button {
   background: rgb(251,156,163);
   color: #fff;
 }
+
+.squishy {
+  position: relative;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 250ms;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.squishy i {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+
+
+
+
+
+/* Candy Squishy */
+.squishy-candy {
+  background: linear-gradient(to bottom right, rgb(244 114 182), rgb(248 113 113));
+  color: white;
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.4),
+    0 2px 0 0 #f472b6,
+    0 4px 0 0 #f43f5e,
+    0 6px 0 0 #e11d48,
+    0 8px 0 0 #be123c,
+    0 8px 16px 0 rgba(244,114,182,0.5);
+}
+
+.squishy-candy:hover {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.4),
+    0 1px 0 0 #f472b6,
+    0 2px 0 0 #f43f5e,
+    0 3px 0 0 #e11d48,
+    0 4px 0 0 #be123c,
+    0 4px 8px 0 rgba(244,114,182,0.5);
+}
+

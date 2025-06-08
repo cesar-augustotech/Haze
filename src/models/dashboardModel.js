@@ -1,19 +1,30 @@
 var database = require("../database/config");
 
-// Usuários mais ativos (exemplo: top 5 por número de posts)
+// Usuários mais ativos (top 10 por número de posts + imagens)
 function usuariosAtivos() {
     var instrucaoSql = `
-        SELECT u.username, COUNT(p.id) AS total_posts
+        SELECT 
+            u.username,
+            COALESCE(p.total_posts, 0) + COALESCE(m.total_imagens, 0) AS total_posts
         FROM usuarios u
-        LEFT JOIN posts p ON u.id = p.usuario_id
-        GROUP BY u.id
+        LEFT JOIN (
+            SELECT usuario_id, COUNT(*) AS total_posts
+            FROM posts
+            GROUP BY usuario_id
+        ) p ON u.id = p.usuario_id
+        LEFT JOIN (
+            SELECT usuario_id, COUNT(*) AS total_imagens
+            FROM imagens_mural
+            GROUP BY usuario_id
+        ) m ON u.id = m.usuario_id
         ORDER BY total_posts DESC
         LIMIT 10;
     `;
     return database.executar(instrucaoSql);
 }
 
-// Top imagens do mural (mais bem avaliadas)
+
+// Top imagem do mural (mais bem avaliada)
 function topImagens() {
     var instrucaoSql = `
         SELECT m.id, m.url_imagem, m.descricao, u.username AS autor, 
@@ -28,7 +39,7 @@ function topImagens() {
     return database.executar(instrucaoSql);
 }
 
-// Ranking do minigame (exemplo)
+// Ranking do minigame (top 5)
 function rankingMinigame() {
     var instrucaoSql = `
         SELECT u.username, mg.pontuacao
@@ -69,13 +80,23 @@ function estatisticasGerais() {
     return database.executar(instrucaoSql);
 }
 
-// Dados para gráfico: posts por usuário
+// Dados para gráfico: posts + imagens por usuário
 function postsPorUsuario() {
     var instrucaoSql = `
-        SELECT u.username, COUNT(p.id) AS total_posts
+        SELECT 
+            u.username,
+            COALESCE(p.total_posts, 0) + COALESCE(m.total_imagens, 0) AS total_posts
         FROM usuarios u
-        LEFT JOIN posts p ON u.id = p.usuario_id
-        GROUP BY u.id
+        LEFT JOIN (
+            SELECT usuario_id, COUNT(*) AS total_posts
+            FROM posts
+            GROUP BY usuario_id
+        ) p ON u.id = p.usuario_id
+        LEFT JOIN (
+            SELECT usuario_id, COUNT(*) AS total_imagens
+            FROM imagens_mural
+            GROUP BY usuario_id
+        ) m ON u.id = m.usuario_id
         ORDER BY total_posts DESC;
     `;
     return database.executar(instrucaoSql);

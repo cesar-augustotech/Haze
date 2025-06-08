@@ -15,7 +15,7 @@
     <nav>
       <a href="comunidade.html">Comunidade</a>
       <a href="dashboard.html">Dashboard</a>
-      <a class="nav-perfil" href="perfil.html">Perfil</a>
+      <a class="nav-perfil squishy squishy-candy" href="perfil.html">Perfil</a>
     </nav>
   </header>
 
@@ -35,7 +35,7 @@
   <div class="conteudo">
     <!-- Mural -->
     <div class="tab conteudo-tab" id="mural">
-      <button class="novaPostagem" id="novaPostagemMural" style="margin-bottom:15px;">+ Nova Postagem</button>
+      <button class=" squishy squishy-candy" id="novaPostagemMural" style="margin:15px;">+ Nova Postagem</button>
       <div class="grid-mural" id="lista-mural">
 
       </div>
@@ -43,7 +43,7 @@
 
     <!-- Fórum -->
     <div class="tab conteudo-tab" id="forum" style="display:none;">
-      <button class="novaPostagem" id="novaPostagemForum" style="margin-bottom:15px;">+ Nova Postagem</button>
+      <button class=" squishy squishy-candy" id="novaPostagemMural" style="margin:15px;">+ Nova Postagem</button>
       <ul class="lista-posts" id="lista-forum">
 
       </ul>
@@ -76,7 +76,6 @@
       console.error("Erro ao carregar o usuário:", error);
     }
 
-    // Função para buscar e renderizar cards do mural
     async function carregarMural() {
       const resp = await fetch('/posts/mural');
       const posts = await resp.json();
@@ -89,16 +88,16 @@
       ? `<button class="btn-remover" data-id="${post.id}" title="Remover postagem">🗑️</button>`
       : ''
     }
-    <h3 style="width:100%; text-align:center">${post.descricao}</h3>
-    <img style="width:100%;" src="${post.imagem}" alt="${post.descricao}">
+    <h3 style="width:100%; justify-content:center; text-align:center">${post.descricao}</h3>
+    <img style=" border-radius:5px; width:98%; align-self:center" src="${post.imagem}" alt="${post.descricao}">
     <div class="info">
       <div><img src="${post.avatar || 'https://via.placeholder.com/32'}" class="avatar" alt=""></div>
       <div class="autor">${post.autor}</div>
-      <div class="estrelas">${post.estrelas || ''}</div>
+      <div class="estrelas">${post.media_avaliacao || ''}⭐</div>
     </div>
     <div class="avaliacao" data-id="${post.id}">
       <span style="margin-right:4px;">Avaliar:</span>
-      <select class="select-avaliacao">
+      <select class="select-avaliacao squishy squishy-candy" style="padding:-10px">
         <option value="">⭐</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -106,7 +105,7 @@
         <option value="4">4</option>
         <option value="5">5</option>
       </select>
-      <button class="btn-avaliar">Enviar</button>
+      <button class="btn-avaliar ">Enviar</button>
     </div>
   </div>
 `;
@@ -159,7 +158,7 @@
           ) return;
           const titulo = card.getAttribute('data-titulo');
           const src = card.querySelector('img').src;
-          const html = `<h3>${titulo}</h3><img src="${src}" alt="${titulo}">`;
+          const html = `<img src="${src}" alt="${titulo}">`;
           document.getElementById('modalBody').innerHTML = html;
           document.getElementById('modal').classList.add('active');
         });

@@ -14,7 +14,7 @@ function listarImagensMural(req, res) {
 
 function criarImagemMural(req, res) {
     const { descricao, usuarioId } = req.body;
-    // multer salva o arquivo em req.file
+ 
     const url_imagem = req.file ? `/assets/mural/${req.file.filename}` : null;
 
     if (!url_imagem || !usuarioId) {
@@ -40,12 +40,11 @@ function removerImagem(req, res) {
         return res.status(400).send("ID do post não informado!");
     }
 
-    // Primeiro, busque o caminho da imagem no banco
+
     postModel.buscarImagemPorId(postId)
         .then(function (resultado) {
             const imagem = Array.isArray(resultado) ? resultado[0] : resultado;
             if (imagem && imagem.url_imagem) {
-                // Remova o arquivo do diretório (exceto placeholder, se quiser)
                 if (!imagem.url_imagem.includes('default.png')) {
                     const caminhoArquivo = path.join(__dirname, '../../public', imagem.url_imagem);
                     fs.unlink(caminhoArquivo, err => {
@@ -53,7 +52,6 @@ function removerImagem(req, res) {
                     });
                 }
             }
-            // Agora remova do banco
             postModel.removerImagem(postId)
                 .then(function () {
                     res.json({ ok: true });
@@ -139,7 +137,7 @@ function editarPostForum(req, res) {
         });
 }
 
-// No final do arquivo, adicione as funções ao exports:
+
 module.exports = {
     listarImagensMural,
     criarImagemMural,

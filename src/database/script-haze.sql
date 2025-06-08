@@ -70,3 +70,6 @@ FLUSH PRIVILEGES;
 
 select * from usuarios;
 
+use haze;
+        SELECT * FROM imagens_mural;
+

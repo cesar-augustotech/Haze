@@ -11,13 +11,13 @@ function listarImagensMural() {
             u.username AS autor, 
             u.avatar_url as avatar,
             u.id as autorId,
-            ROUND(AVG(av.nota), 2) AS media_avaliacao,
+            ROUND(AVG(av.nota), 1) AS media_avaliacao,
             COUNT(av.id) AS total_avaliacoes
         FROM imagens_mural AS m
         JOIN usuarios AS u ON m.usuario_id = u.id
         LEFT JOIN avaliacoes_imagens AS av ON av.imagem_id = m.id
         GROUP BY m.id, m.url_imagem, m.descricao, m.data_envio, u.username, u.avatar_url
-        ORDER BY media_avaliacao DESC;
+        ORDER BY data DESC;
     `;
     return database.executar(instrucaoSql);
 }
@@ -32,6 +32,7 @@ function cadastrarImagemMural({ url_imagem, descricao, usuarioId }) {
 
 function removerImagem(postId) {
     var instrucaoSql = `
+    DELETE FROM avaliacoes_imagens WHERE imagem_id = ${postId};
         DELETE FROM imagens_mural WHERE id = ${postId};
     `;
     return database.executar(instrucaoSql);
