@@ -1,4 +1,4 @@
-/* Começar vídeo em 2:33*/
+/* Começar vídeo em 2:33 */
 let jogando = false;
 
 const canvas = document.getElementById('jogo_canvas')
@@ -9,12 +9,13 @@ const game_div = document.getElementById('game_div')
 canvas.width = 1024;
 canvas.height = 576;
 
-
+// Mapeamento das colisões do cenário
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
 
+// Classe que representa barreiras do cenário
 class Boundary {
     static width = 48
     static height = 48
@@ -25,11 +26,12 @@ class Boundary {
     }
 
     draw() {
-        ctx.fillStyle = 'red'
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.001)'
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
 
+// Lista de barreiras e ajuste de posição do cenário
 const boundaries = []
 const offset = {
     x: -735,
@@ -44,10 +46,11 @@ collisionsMap.forEach((row, i) => {
                     y: i * Boundary.height + offset.y
                 }
             }))
-
     })
 })
 console.log(boundaries)
+
+// Carregamento das imagens do cenário e do jogador
 const darkroom = new Image()
 darkroom.src = './img/darkroom.png'
 
@@ -63,7 +66,7 @@ playerLeftImage.src = './img/playerLeft.png'
 const playerRightImage = new Image()
 playerRightImage.src = './img/playerRight.png'  
 
-
+// Classe que representa sprites animados (jogador, fundo, etc)
 class Sprite {
     constructor({
         position,
@@ -85,7 +88,6 @@ class Sprite {
         this.sprites = sprites
     }
     draw() {
-
         ctx.drawImage(
             this.image,
             this.frames.val * this.width,
@@ -97,22 +99,19 @@ class Sprite {
             this.image.width / this.frames.max,
             this.image.height
         );
-        if (!this.moving) return; // Se não estiver se movendo, não atualiza os frames
-        
-        // Atualiza os frames
+        if (!this.moving) return;
         if (this.frames.max > 1) {
             this.frames.elapsed++;
         }
         if (this.frames.elapsed % 10 === 0) {
-             if(this.frames.val < this.frames.max - 1) {
-            this.frames.val++
-        } else this.frames.val = 0;
-    }
-
+            if(this.frames.val < this.frames.max - 1) {
+                this.frames.val++
+            } else this.frames.val = 0;
+        }
     }
 };
 
-
+// Instância do jogador
 const player = new Sprite({
     position: {
         x: canvas.width / 2 - 192 / 4 / 2,
@@ -130,6 +129,7 @@ const player = new Sprite({
     }
 });
 
+// Instância do fundo do cenário
 const background = new Sprite({
     position: {
         x: offset.x,
@@ -138,17 +138,16 @@ const background = new Sprite({
     image: darkroom
 });
 
+// Controle das teclas pressionadas
 const keys = {
     w: { pressed: false },
     a: { pressed: false },
     s: { pressed: false },
     d: { pressed: false }
 }
-let animationId = null; // Adicione esta variável global
+let animationId = null;
 
-
-const movables = [background, ...boundaries];
-
+// Função para detectar colisão entre dois retângulos
 function rectangleCollision({personagem, colisao}) {
     return (
         personagem.position.x + personagem.width >= colisao.position.x &&
@@ -158,91 +157,137 @@ function rectangleCollision({personagem, colisao}) {
     );
 }
 
+// Classe para áreas interativas do cenário
+class InteractiveArea {
+    constructor({ position, width, height, content }) {
+        this.position = position;
+        this.width = width;
+        this.height = height;
+        this.content = content;
+    }
+
+    draw() {
+        ctx.fillStyle = 'rgba(0,255,0,0.2)';
+        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+}
+
+// Lista de áreas interativas do cenário
+const interactiveAreas = [
+    new InteractiveArea({
+        position: { x: 300, y: 200 },
+        width: 48,
+        height: 48,
+        content: "Este é um conteúdo especial do seu site!"
+    }),
+    // Adicione mais áreas conforme necessário
+];
+
+// Função para verificar se o jogador está em uma área interativa
+function playerInInteractiveArea(player, area) {
+    return (
+        player.position.x + player.width >= area.position.x &&
+        player.position.x <= area.position.x + area.width &&
+        player.position.y + player.height >= area.position.y &&
+        player.position.y <= area.position.y + area.height
+    );
+}
+
+// Variável que armazena o texto da área interativa atual
+let currentInteraction = null;
+
+// Lista de todos os objetos móveis do cenário
+const movables = [background, ...boundaries, ...interactiveAreas];
+
+// Função principal de animação e lógica do jogo
 function animate() {
-    animationId = window.requestAnimationFrame(animate); // Salve o ID
-    if (!jogando) return; // Pare de animar se não estiver jogando
+    animationId = window.requestAnimationFrame(animate);
+    if (!jogando) return;
     background.draw();
 
-    boundaries.forEach((boundary) => {
-        boundary.draw();
-
-
-    });
-
-
+    boundaries.forEach((boundary) => boundary.draw());
+    interactiveAreas.forEach((area) => area.draw());
     player.draw();
 
-
-
-let moving = true; // Variável para verificar se o personagem está se movendo
-player.moving = false; // Reseta o estado de movimento do personagem
-
+    let moving = true;
+    player.moving = false;
 
     if (keys.w.pressed && lastKey === 'w') {
-        player.moving = true; // Define que o personagem está se movendo
-        player.image = player.sprites.up; // Muda a imagem do personagem para cima
+        player.moving = true;
+        player.image = player.sprites.up;
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (rectangleCollision({ personagem: player, colisao: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + 3 } } })) {
-                console.log('Colidiu com o teste de limite');
-                moving = false; // Se colidir, não se move
+                moving = false;
                 break
-
             }
         }
         if (moving) {
-        movables.forEach((movable) => movable.position.y += 3);
+            movables.forEach((movable) => movable.position.y += 3);
         }
-
     }
     else if (keys.a.pressed && lastKey === 'a') {
-              player.moving = true; // Define que o personagem está se movendo
-              player.image = player.sprites.left; // Muda a imagem do personagem para esquerda
+        player.moving = true;
+        player.image = player.sprites.left;
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (rectangleCollision({ personagem: player, colisao: { ...boundary, position: { x: boundary.position.x + 3, y: boundary.position.y  } } })) {
-                console.log('Colidiu com o teste de limite');
-                moving = false; // Se colidir, não se move
+                moving = false;
                 break
-
             }
         }
         if (moving) {
-        movables.forEach((movable) => movable.position.x += 3);
-        }}
+            movables.forEach((movable) => movable.position.x += 3);
+        }
+    }
     else if (keys.s.pressed && lastKey === 's') { 
-              player.moving = true; // Define que o personagem está se movendo
-              player.image = player.sprites.down; // Muda a imagem do personagem para baixo
+        player.moving = true;
+        player.image = player.sprites.down;
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (rectangleCollision({ personagem: player, colisao: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - 3 } } })) {
-                console.log('Colidiu com o teste de limite');
-                moving = false; // Se colidir, não se move
+                moving = false;
                 break
-
             }
         }
         if (moving) {
-        movables.forEach((movable) => movable.position.y -= 3);
-        }}
+            movables.forEach((movable) => movable.position.y -= 3);
+        }
+    }
     else if (keys.d.pressed && lastKey === 'd') {
-            player.image = player.sprites.right; // Muda a imagem do personagem para direita
-              player.moving = true; // Define que o personagem está se movendo
-              
-              for (let i = 0; i < boundaries.length; i++) {
+        player.image = player.sprites.right;
+        player.moving = true;
+        for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (rectangleCollision({ personagem: player, colisao: { ...boundary, position: { x: boundary.position.x - 3 , y: boundary.position.y } } })) {
-                console.log('Colidiu com o teste de limite');
-                moving = false; // Se colidir, não se move
+                moving = false;
                 break
-
             }
         }
         if (moving) {
-        movables.forEach((movable) => movable.position.x -= 3);
-        }};
+            movables.forEach((movable) => movable.position.x -= 3);
+        }
+    }
+
+    // Verifica se o jogador está em uma área interativa e exibe o texto correspondente
+    currentInteraction = null;
+    for (const area of interactiveAreas) {
+        if (playerInInteractiveArea(player, area)) {
+            currentInteraction = area.content;
+            break;
+        }
+    }
+
+    if (currentInteraction) {
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillRect(50, 50, 400, 100);
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Arial';
+        ctx.fillText(currentInteraction, 70, 110);
+    }
 }
 
+// Função para iniciar o jogo
 function jogar() {
     banner.style.transition = 'opacity 1.5s';
     banner.style.opacity = '0';
@@ -254,16 +299,17 @@ function jogar() {
         game_div.style.transition = 'opacity 3s';
         game_div.style.opacity = '1';
 
-        if (animationId === null) { // Só inicia se não estiver rodando
+        if (animationId === null) {
             animate();
         }
     }, 2000);
 }
 
+// Função para parar o jogo e exibir o banner
 function pararJogo() {
     jogando = false;
     if (animationId !== null) {
-        cancelAnimationFrame(animationId); // Cancela o loop
+        cancelAnimationFrame(animationId);
         animationId = null;
     }
     game_div.style.display = 'none';
@@ -275,7 +321,7 @@ function pararJogo() {
     game_div.style.zIndex = '-1';
 }
 
-
+// Variável para armazenar a última tecla pressionada
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
@@ -296,7 +342,6 @@ window.addEventListener('keydown', (e) => {
             lastKey = 'd'
             break
     }
-
 })
 
 window.addEventListener('keyup', (e) => {
@@ -314,5 +359,4 @@ window.addEventListener('keyup', (e) => {
             keys.d.pressed = false
             break
     }
-
 })
